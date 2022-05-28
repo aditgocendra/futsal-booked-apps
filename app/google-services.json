@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "602477499370",
+    "firebase_url": "https://futsal-booked-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "futsal-booked",
+    "storage_bucket": "futsal-booked.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602477499370:android:4f34a119be681bc0121893",
+        "android_client_info": {
+          "package_name": "com.ark.futsalbookedapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602477499370-plqtti62r1p674qqvvpb2psngmtoba7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHPGm4IIUwNx8LACxMmuWps_P4KE3S-0s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602477499370-plqtti62r1p674qqvvpb2psngmtoba7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

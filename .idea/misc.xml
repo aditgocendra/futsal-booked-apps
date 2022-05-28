@@ -3,7 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/drawable/ic_email.xml" value="0.17" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/drawable/ic_key.xml" value="0.17" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/drawable/shape_rounded_left_bottom.xml" value="0.17" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/drawable/shape_rounded_right_top.xml" value="0.16" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_authentication.xml" value="0.2" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_forgot_password.xml" value="0.2291577597263788" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_home.xml" value="0.24070115433946132" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_main.xml" value="0.2791666666666667" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_sign_up.xml" value="0.2291577597263788" />
       </map>
     </option>
   </component>

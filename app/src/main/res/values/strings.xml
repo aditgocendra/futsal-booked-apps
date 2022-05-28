@@ -10,4 +10,21 @@
     <string name="already_have_account_sign_in">Already have account ? <b>Sign In</b></string>
     <string name="forgot_password">Forgot Password</string>
     <string name="sign_up">Sign Up</string>
+    <string name="location">Location</string>
+    <string name="futsal_field">Futsal Field</string>
+    <string name="number_phone">Number Phone</string>
+    <string name="account">Account</string>
+    <string name="todo">TODO</string>
+    <string name="bank_account_number">Bank Account Number</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="register">Register</string>
+    <string name="register_provider">Register Provider</string>
+    <string name="field_name">Field Name</string>
+    <string name="set_location">Set Location</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="field_add">Field Add</string>
+    <string name="minimum_down_payment">Minimum Down Payment</string>
+    <string name="add">Add</string>
+    <string name="field_type">Field Type</string>
+    <string name="grass">Grass</string>
 </resources>

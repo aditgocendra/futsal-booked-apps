@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ark.futsalbookedapps">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FutsalBookedApps"
         tools:targetApi="31">
+        <activity
+            android:name=".Views.ProviderField.ProviderFieldRegister"
+            android:exported="false" />
+        <activity
+            android:name=".Views.ProviderField.FieldAdd"
+            android:exported="false" />
+        <activity
+            android:name=".Views.ProviderField.Dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".Views.Users.Account"
+            android:exported="false" />
         <activity
             android:name=".Views.Users.Home"
             android:exported="false" />

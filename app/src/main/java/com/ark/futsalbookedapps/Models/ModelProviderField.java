@@ -8,12 +8,13 @@ public class ModelProviderField {
     private String location;
     private double latitude;
     private double longitude;
+    private double rating;
     private String keyUserProviderField;
 
     public ModelProviderField() {
     }
 
-    public ModelProviderField(String name, String urlPhotoField, String numberPhone, String bankAccountNumber, String location, double latitude, double longitude) {
+    public ModelProviderField(String name, String urlPhotoField, String numberPhone, String bankAccountNumber, String location, double latitude, double longitude, double rating) {
         this.name = name;
         this.urlPhotoField = urlPhotoField;
         this.numberPhone = numberPhone;
@@ -21,6 +22,15 @@ public class ModelProviderField {
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.rating = rating;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public String getName() {

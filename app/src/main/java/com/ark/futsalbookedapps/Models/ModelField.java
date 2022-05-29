@@ -46,4 +46,17 @@ public class ModelField {
     public void setKeyField(String keyField) {
         this.keyField = keyField;
     }
+
+    @Override
+    public String toString() {
+        return typeField;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ModelField that = (ModelField) o;
+        return keyField.equals(that.keyField);
+    }
 }

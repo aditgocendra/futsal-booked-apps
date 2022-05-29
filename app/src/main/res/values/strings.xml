@@ -27,4 +27,15 @@
     <string name="add">Add</string>
     <string name="field_type">Field Type</string>
     <string name="grass">Grass</string>
+    <string name="update_provider_data">Update Provider Data</string>
+    <string name="update">Update</string>
+    <string name="update_field">Update Field</string>
+    <string name="rating_5_0">Rating 5.0</string>
+    <string name="total_field_0">Total field : 0</string>
+    <string name="booked_now">Booked Now</string>
+    <string name="futsaloka">Futsaloka</string>
+    <string name="field">Field</string>
+    <string name="preview_location">Preview Location</string>
+    <string name="rp_50_000">Rp. 50.000</string>
+    <string name="minimum_dp">Minimum DP</string>
 </resources>

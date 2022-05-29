@@ -18,6 +18,15 @@
         android:theme="@style/Theme.FutsalBookedApps"
         tools:targetApi="31">
         <activity
+            android:name=".Views.Users.DetailProviderField"
+            android:exported="false" />
+        <activity
+            android:name=".Views.ProviderField.UpdateField"
+            android:exported="false" />
+        <activity
+            android:name=".Views.ProviderField.UpdateDataProvider"
+            android:exported="false" />
+        <activity
             android:name=".Views.ProviderField.ProviderFieldRegister"
             android:exported="false" />
         <activity

@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".Views.Users.Home">
 
+<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--        android:id="@+id/swipe_refresh"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>-->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -191,38 +197,12 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"/>
 
-            <androidx.cardview.widget.CardView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_field_home"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                app:cardCornerRadius="8dp"
-                android:layout_margin="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:src="@drawable/futsal_field"
-                        android:scaleType="centerCrop"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/location"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textSize="14sp"
-                        android:drawablePadding="4dp"
-                        android:includeFontPadding="false"
-                        app:drawableStartCompat="@drawable/ic_location_on"
-                        app:drawableTint="@color/primary_dark"
-                        android:layout_margin="8dp"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:listitem="@layout/layout_card_futsal_field"/>
 
         </LinearLayout>
 

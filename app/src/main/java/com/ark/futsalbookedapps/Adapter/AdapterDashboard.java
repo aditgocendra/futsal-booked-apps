@@ -1,30 +1,50 @@
 package com.ark.futsalbookedapps.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ark.futsalbookedapps.Globals.Data;
+import com.ark.futsalbookedapps.Globals.Functions;
+import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelField;
 import com.ark.futsalbookedapps.R;
+import com.ark.futsalbookedapps.Views.ProviderField.ProviderFieldRegister;
+import com.ark.futsalbookedapps.Views.ProviderField.UpdateField;
+import com.ark.futsalbookedapps.Views.Users.Account;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.DashboardVH> {
 
-    private Context context;
-    private List<ModelField> listField;
+    private final Context context;
+    private List<ModelField> listField = new ArrayList<>();
 
-    public AdapterDashboard(Context context, List<ModelField> listField) {
+    public AdapterDashboard(Context context) {
         this.context = context;
+    }
+
+    public void setItem(List<ModelField> listField){
         this.listField = listField;
     }
+
 
     @NonNull
     @Override
@@ -39,6 +59,49 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Dash
         ModelField modelField = listField.get(position);
         Picasso.get().load(modelField.getUrlField()).into(holder.imageField);
         holder.typeField.setText(modelField.getTypeField());
+
+        holder.cardEdit.setOnClickListener(view -> {
+            Intent intent = new Intent(context, UpdateField.class);
+            intent.putExtra("keyField", modelField.getKeyField());
+            context.startActivity(intent);
+        });
+
+        holder.cardDelete.setOnClickListener(view -> {
+            Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.layout_confirmation_option);
+            dialog.getWindow().setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_center_dialog));
+
+            dialog.getWindow().setLayout(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            dialog.setCancelable(false); //Optional
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
+
+            // button customize
+            Button okay, cancel;
+            okay = dialog.findViewById(R.id.btn_okay);
+            cancel = dialog.findViewById(R.id.btn_cancel);
+            okay.setText("Okay");
+            cancel.setText("Cancel");
+
+            // text customize
+            TextView messageText, headerText;
+            headerText = dialog.findViewById(R.id.textView);
+            messageText = dialog.findViewById(R.id.textView2);
+            headerText.setText("Delete Data");
+            messageText.setText("Are you sure delete this data ?");
+
+            dialog.show();
+
+            cancel.setOnClickListener(v -> dialog.dismiss());
+
+            okay.setOnClickListener(v -> {
+                deleteImageField(modelField.getKeyField(), modelField.getUrlField(), position);
+                dialog.dismiss();
+            });
+        });
+
     }
 
     @Override
@@ -49,10 +112,35 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Dash
     public static class DashboardVH extends RecyclerView.ViewHolder {
         ImageView imageField;
         TextView typeField;
+        CardView cardEdit, cardDelete;
         public DashboardVH(@NonNull View itemView) {
             super(itemView);
             imageField = itemView.findViewById(R.id.image_field);
             typeField = itemView.findViewById(R.id.type_field);
+            cardEdit = itemView.findViewById(R.id.card_edit);
+            cardDelete = itemView.findViewById(R.id.card_delete);
         }
+    }
+
+    private void deleteImageField(String keyField, String urlImage, int pos){
+        // init storage firebase
+        FirebaseStorage referenceStorage = FirebaseStorage.getInstance();
+
+        String name_photo = referenceStorage.getReferenceFromUrl(urlImage).getName();
+        StorageReference deleteRef = referenceStorage.getReference("field/"+name_photo);
+
+        deleteRef.delete()
+                .addOnFailureListener(e -> Toast.makeText(context, "Delete data failed", Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(unused -> deleteFieldData(keyField, pos));
+    }
+
+    private void deleteFieldData(String keyField, int pos){
+        ReferenceDatabase.referenceField.child(Data.uid).child(keyField).removeValue()
+                .addOnSuccessListener(unused -> {
+                    listField.remove(pos);
+                    this.notifyItemRemoved(pos);
+                    Toast.makeText(context, "Success delete data", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(context, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

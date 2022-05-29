@@ -194,7 +194,8 @@ public class ProviderFieldRegister extends AppCompatActivity {
           accNumber,
           location,
           latitude,
-          longitude
+          longitude,
+                0.0
         );
 
         ReferenceDatabase.referenceProviderField.child(Data.uid).setValue(modelProviderField).addOnSuccessListener(unused -> {

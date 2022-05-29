@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -49,7 +50,17 @@ public class Dashboard extends AppCompatActivity {
         binding.recyclerFieldGrid.setLayoutManager(gridLayoutManager);
         binding.recyclerFieldGrid.setHasFixedSize(true);
 
+        adapterDashboard = new AdapterDashboard(this);
+        binding.recyclerFieldGrid.setAdapter(adapterDashboard);
+
         setDataField();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 
     private void listenerComponent() {
@@ -58,6 +69,8 @@ public class Dashboard extends AppCompatActivity {
         binding.cardAddField.setOnClickListener(view -> {
             Functions.updateUI(Dashboard.this, FieldAdd.class);
         });
+
+        binding.cardProvider.setOnClickListener(view -> Functions.updateUI(this, UpdateDataProvider.class));
     }
 
     private void setDataProviderField() {
@@ -79,7 +92,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
     private void setDataField() {
-        ReferenceDatabase.referenceField.child(Data.uid).addValueEventListener(new ValueEventListener() {
+        ReferenceDatabase.referenceField.child(Data.uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listField = new ArrayList<>();
@@ -94,11 +107,11 @@ public class Dashboard extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
                     if (listField.size() != 0){
-                        adapterDashboard = new AdapterDashboard(Dashboard.this, listField);
-                        binding.recyclerFieldGrid.setAdapter(adapterDashboard);
+                        adapterDashboard.setItem(listField);
                     }else {
                         Toast.makeText(Dashboard.this, "Not yet field", Toast.LENGTH_SHORT).show();
                     }
+                    adapterDashboard.notifyDataSetChanged();
                 }, 200);
             }
             @Override

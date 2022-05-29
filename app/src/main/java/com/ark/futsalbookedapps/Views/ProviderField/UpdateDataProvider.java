@@ -174,6 +174,8 @@ public class UpdateDataProvider extends AppCompatActivity {
                     binding.bankAccountNumberEdit.setText(modelProviderField.getBankAccountNumber());
                     binding.locationEdit.setText(modelProviderField.getLocation());
                     oldUrl = modelProviderField.getUrlPhotoField();
+                    latitude = modelProviderField.getLatitude();
+                    longitude = modelProviderField.getLongitude();
                 }else {
                     Toast.makeText(UpdateDataProvider.this, "Provider field is null", Toast.LENGTH_SHORT).show();
                     Functions.updateUI(UpdateDataProvider.this, Home.class);
@@ -233,7 +235,8 @@ public class UpdateDataProvider extends AppCompatActivity {
                 accNumber,
                 location,
                 latitude,
-                longitude
+                longitude,
+                0.0
         );
 
         ReferenceDatabase.referenceProviderField.child(Data.uid).setValue(modelProviderField).addOnSuccessListener(unused -> {

@@ -17,17 +17,23 @@
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_account.xml" value="0.25" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_authentication.xml" value="0.2" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_dashboard.xml" value="0.5" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_detail_provider_field.xml" value="0.2" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_field_add.xml" value="0.25" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_forgot_password.xml" value="0.2291577597263788" />
-        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_home.xml" value="0.22" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_home.xml" value="0.28434343434343434" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_main.xml" value="0.2791666666666667" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_provider_field_register.xml" value="0.33" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_sign_up.xml" value="0.2291577597263788" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_update_data_provider.xml" value="0.24070115433946132" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_update_field.xml" value="0.2377084224027362" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_booked_field.xml" value="0.23984608807182556" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_field.xml" value="0.33" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_futsal_field.xml" value="0.23984608807182556" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_grid_field.xml" value="0.25" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_confirmation_option.xml" value="0.23984608807182556" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_dialog_booked_field.xml" value="0.2376530181511186" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_option_item.xml" value="0.24070115433946132" />
       </map>
     </option>
   </component>

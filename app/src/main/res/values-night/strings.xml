@@ -27,4 +27,7 @@
     <string name="add">Add</string>
     <string name="field_type">Field Type</string>
     <string name="grass">Grass</string>
+    <string name="update_provider_data">Update Provider Data</string>
+    <string name="update">Update</string>
+    <string name="update_field">Update Field</string>
 </resources>

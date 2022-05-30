@@ -139,10 +139,52 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp">
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_booked_field"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:cardCornerRadius="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_width="6.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/my_booked"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_soccer"
+                        app:tint="@color/primary"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:scrollbars="none"
                 tools:ignore="SpeakableTextPresentCheck">
 

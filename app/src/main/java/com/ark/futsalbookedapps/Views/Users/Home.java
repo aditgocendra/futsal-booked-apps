@@ -57,7 +57,6 @@ public class Home extends AppCompatActivity {
         adapterHome = new AdapterHome(this);
         binding.recyclerFieldHome.setAdapter(adapterHome);
 
-
         requestDataProvider();
     }
 
@@ -67,6 +66,8 @@ public class Home extends AppCompatActivity {
                 Functions.updateUI(this, Account.class);
             }
         });
+
+        binding.cardBookedField.setOnClickListener(view -> Functions.updateUI(this, FieldBooked.class));
 
 //        binding.swipeRefresh.setOnRefreshListener(() -> {
 //            key = null;

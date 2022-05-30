@@ -38,4 +38,24 @@
     <string name="preview_location">Preview Location</string>
     <string name="rp_50_000">Rp. 50.000</string>
     <string name="minimum_dp">Minimum DP</string>
+    <string name="my_booked">My Booked</string>
+    <string name="booked_field">Booked Field</string>
+    <string name="provider_field">Provider Field</string>
+    <string name="status_dp_not_yet_paid">Status DP : Not yet paid</string>
+    <string name="bank_acc_number">Bank Acc Number</string>
+    <string name="manage_field_booked">Manage Field Booked</string>
+    <string name="user_booked">User Booked</string>
+    <string name="contact_user">Contact User</string>
+    <string name="set_status">Set Status</string>
+    <string name="user_contact">User Contact</string>
+    <string name="confirmation_paid">Confirmation Paid</string>
+    <string name="cancel_booked">Cancel Booked</string>
+    <string name="contact_provider">Contact Provider</string>
+    <string name="gift_a_review">Gift A Review</string>
+    <string name="comment">Comment</string>
+    <string name="rating">Rating</string>
+    <string name="review">Review</string>
+    <string name="review_user">Review user</string>
+    <string name="_5_0">5.0</string>
+    <string name="review_field">Review Field</string>
 </resources>

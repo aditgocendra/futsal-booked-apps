@@ -9,4 +9,5 @@ public class ReferenceDatabase {
     public static DatabaseReference referenceProviderField = referenceRoot.child("provider_field");
     public static DatabaseReference referenceField = referenceRoot.child("field");
     public static DatabaseReference referenceBooked = referenceRoot.child("booked_field");
+    public static DatabaseReference referenceReview = referenceRoot.child("review_provider");
 }

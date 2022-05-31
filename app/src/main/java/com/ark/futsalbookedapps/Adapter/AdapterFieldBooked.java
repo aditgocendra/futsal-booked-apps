@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelBooked;
@@ -22,12 +23,14 @@ import com.ark.futsalbookedapps.Models.ModelField;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
 import com.ark.futsalbookedapps.Models.ModelReviewProvider;
 import com.ark.futsalbookedapps.R;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -76,14 +79,19 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
         }else if (modelBooked.getStatus() == 101){
             holder.statusText.setText("Status : Canceled");
             holder.bankAccNumber.setEnabled(false);
+            holder.ratingBtn.setVisibility(View.GONE);
+            holder.previewLocBtn.setVisibility(View.GONE);
+            holder.contactProvider.setVisibility(View.GONE);
         }else if (modelBooked.getStatus() == 202){
             holder.statusText.setText("Status : DP payment in full");
             holder.bankAccNumber.setEnabled(false);
             holder.ratingBtn.setVisibility(View.VISIBLE);
         }else if (modelBooked.getStatus() == 303){
-            holder.statusText.setText("Status : DP payment in full");
+            holder.statusText.setText("Status : Booked Finish");
             holder.bankAccNumber.setEnabled(false);
             holder.ratingBtn.setVisibility(View.GONE);
+            holder.previewLocBtn.setVisibility(View.GONE);
+            holder.contactProvider.setVisibility(View.GONE);
         }
 
         holder.bankAccNumber.setOnClickListener(view -> dialogBankAccount.show());
@@ -224,9 +232,15 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
 
         ReferenceDatabase.referenceReview.child(modelBooked.getKeyProviderField()).push().setValue(modelReviewProvider)
                 .addOnSuccessListener(unused -> {
+
+                    // create and send notification
+                    ReferenceDatabase.referenceTokenNotification.child(modelBooked.getKeyProviderField()).child("token").get()
+                            .addOnCompleteListener(this::createNotification);
+
+                    // change status booked
                     updateStatusBooked(modelBooked, 303, pos);
-                })
-                .addOnFailureListener(e -> Toast.makeText(context, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
+
+                }).addOnFailureListener(e -> Toast.makeText(context, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void updateStatusBooked(ModelBooked modelBooked, int status,  int position) {
@@ -235,7 +249,6 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
             listBooked.get(position).setStatus(status);
             this.notifyItemChanged(position);
             countRatingProviderField(modelBooked.getKeyProviderField());
-
         }).addOnFailureListener(e -> Toast.makeText(context, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
@@ -266,6 +279,34 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     private void updateRatingProvider(String keyProviderField){
         ReferenceDatabase.referenceProviderField.child(keyProviderField).child("rating").setValue(totalRating)
                 .addOnFailureListener(e -> Toast.makeText(context, "Error Update Rating Provider : "+e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    private void createNotification(Task<DataSnapshot> task){
+        String tokenReceiver;
+        if (task.isSuccessful()){
+            tokenReceiver = task.getResult().getValue().toString();
+        }else {
+            Toast.makeText(context, "Notification Task Failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            JSONArray token = new JSONArray();
+            token.put(tokenReceiver);
+
+            JSONObject data = new JSONObject();
+            data.put("title", "Futsaloka");
+            data.put("message", "Hello field providers, it seems, there is a new review for you, let's have a look");
+
+            JSONObject body = new JSONObject();
+            body.put(Data.REMOTE_MSG_DATA, data);
+            body.put(Data.REMOTE_MSG_REGISTRATION_IDS, token);
+
+            Functions.sendNotification(body.toString(), context);
+
+        }catch (Exception e){
+            Toast.makeText(context, "Error Notification : "+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

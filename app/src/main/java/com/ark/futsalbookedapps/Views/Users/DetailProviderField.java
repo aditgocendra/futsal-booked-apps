@@ -31,6 +31,8 @@ import com.ark.futsalbookedapps.Models.ModelProviderField;
 import com.ark.futsalbookedapps.Models.ModelReviewProvider;
 import com.ark.futsalbookedapps.R;
 import com.ark.futsalbookedapps.databinding.ActivityDetailProviderFieldBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
@@ -42,6 +44,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -311,8 +317,40 @@ public class DetailProviderField extends AppCompatActivity {
     private void bookedField(ModelBooked modelBooked){
         ReferenceDatabase.referenceBooked.push().setValue(modelBooked).addOnSuccessListener(unused -> {
             Toast.makeText(DetailProviderField.this, "Booked Success", Toast.LENGTH_SHORT).show();
+
+            // create and sending notification
+            ReferenceDatabase.referenceTokenNotification.child(keyProviderField).child("token").get().addOnCompleteListener(this::createNotification);
+
             finish();
         }).addOnFailureListener(e -> Toast.makeText(DetailProviderField.this, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    private void createNotification(Task<DataSnapshot> task){
+        String tokenReceiver;
+        if (task.isSuccessful()){
+            tokenReceiver = task.getResult().getValue().toString();
+        }else {
+            Toast.makeText(this, "Notification Task Failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            JSONArray token = new JSONArray();
+            token.put(tokenReceiver);
+
+            JSONObject data = new JSONObject();
+            data.put("title", "Field Booked");
+            data.put("message", "Hi there are customers who have booked your place, let's take a look");
+
+            JSONObject body = new JSONObject();
+            body.put(Data.REMOTE_MSG_DATA, data);
+            body.put(Data.REMOTE_MSG_REGISTRATION_IDS, token);
+
+            Functions.sendNotification(body.toString(), DetailProviderField.this);
+
+        }catch (Exception e){
+            Toast.makeText(this, "Error Notification : "+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void requestReviewProvider(){
@@ -371,4 +409,5 @@ public class DetailProviderField extends AppCompatActivity {
             }
         });
     }
+
 }

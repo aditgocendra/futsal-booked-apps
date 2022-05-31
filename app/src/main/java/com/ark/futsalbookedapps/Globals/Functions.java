@@ -8,10 +8,16 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.ark.futsalbookedapps.Notification.ClientAPI;
+import com.ark.futsalbookedapps.Notification.ServiceAPI;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
@@ -21,8 +27,16 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Functions {
     public static void updateUI(Context from, Class to){
@@ -109,5 +123,39 @@ public class Functions {
         if (mapIntent.resolveActivity(mContext.getPackageManager()) != null) {
             mContext.startActivity(mapIntent);
         }
+    }
+
+    public static void sendNotification(String message, Context mContext){
+        ClientAPI.getClient().create(ServiceAPI.class).sendMessageNotification(
+                Data.getRemoteMessageHeaders(),
+                message
+        ).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if (response.isSuccessful()){
+                    try {
+                        if (response.body() != null){
+                            JSONObject responseJSON = new JSONObject(response.body());
+                            JSONArray result = responseJSON.getJSONArray("result");
+
+                            if (responseJSON.getInt("failure") == 1){
+                                JSONObject error = (JSONObject) result.get(0);
+                                Toast.makeText(mContext, error.getString("error"), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    Log.d("Notification", "Sending notification success");
+                }else {
+                    Log.d("Error Notification Code", String.valueOf(response.code()));
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

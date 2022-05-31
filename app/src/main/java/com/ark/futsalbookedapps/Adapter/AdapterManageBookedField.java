@@ -13,13 +13,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.ark.futsalbookedapps.Globals.Data;
+import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelAccount;
 import com.ark.futsalbookedapps.Models.ModelBooked;
 import com.ark.futsalbookedapps.Models.ModelField;
 import com.ark.futsalbookedapps.R;
+import com.ark.futsalbookedapps.Views.Users.DetailProviderField;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.database.DataSnapshot;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +72,10 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
             holder.confirmPaidBtn.setEnabled(false);
         }else if (modelBooked.getStatus() == 202){
             holder.statusText.setText("DP payment in full");
+            holder.cancelBtn.setEnabled(false);
+            holder.confirmPaidBtn.setEnabled(false);
+        }else if (modelBooked.getStatus() == 303){
+            holder.statusText.setText("Booked Finish");
             holder.cancelBtn.setEnabled(false);
             holder.confirmPaidBtn.setEnabled(false);
         }
@@ -236,8 +250,41 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
     private void updateStatusBooked(ModelBooked modelBooked, int status,  int position) {
         modelBooked.setStatus(status);
         ReferenceDatabase.referenceBooked.child(modelBooked.getKeyBooked()).setValue(modelBooked).addOnSuccessListener(unused -> {
+
             listBooked.get(position).setStatus(status);
             this.notifyItemChanged(position);
+
+            ReferenceDatabase.referenceTokenNotification.child(modelBooked.getKeyUserBooked()).child("token").get()
+                    .addOnCompleteListener(this::createNotificationStatus);
+
         }).addOnFailureListener(e -> Toast.makeText(context, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    private void createNotificationStatus(Task<DataSnapshot> task){
+        String tokenReceiver;
+        if (task.isSuccessful()){
+            tokenReceiver = task.getResult().getValue().toString();
+        }else {
+            Toast.makeText(context, "Notification Task Failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            JSONArray token = new JSONArray();
+            token.put(tokenReceiver);
+
+            JSONObject data = new JSONObject();
+            data.put("title", "Futsaloka");
+            data.put("message", "Hello, it seems the order status has changed, let's see");
+
+            JSONObject body = new JSONObject();
+            body.put(Data.REMOTE_MSG_DATA, data);
+            body.put(Data.REMOTE_MSG_REGISTRATION_IDS, token);
+
+            Functions.sendNotification(body.toString(), context);
+
+        }catch (Exception e){
+            Toast.makeText(context, "Error Notification : "+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -3,13 +3,9 @@ package com.ark.futsalbookedapps.Views.ProviderField;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Toast;
-
 import com.ark.futsalbookedapps.Adapter.AdapterDashboard;
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
@@ -18,13 +14,10 @@ import com.ark.futsalbookedapps.Models.ModelField;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
 import com.ark.futsalbookedapps.Views.Users.Home;
 import com.ark.futsalbookedapps.databinding.ActivityDashboardBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -66,11 +59,12 @@ public class Dashboard extends AppCompatActivity {
     private void listenerComponent() {
         binding.backBtn.setOnClickListener(view -> finish());
 
-        binding.cardAddField.setOnClickListener(view -> {
-            Functions.updateUI(Dashboard.this, FieldAdd.class);
-        });
+        binding.cardAddField.setOnClickListener(view -> Functions.updateUI(this, FieldAdd.class));
+
+        binding.cardReviewUser.setOnClickListener(view -> Functions.updateUI(this, ReviewField.class));
 
         binding.cardProvider.setOnClickListener(view -> Functions.updateUI(this, UpdateDataProvider.class));
+        binding.cardBooked.setOnClickListener(view -> Functions.updateUI(this, ManageBookedField.class));
     }
 
     private void setDataProviderField() {

@@ -7,17 +7,20 @@ public class ModelBooked {
     private String playtime;
     private String dateBooked;
     private String timeBooked;
-    private int statusDP;
+    private int status;
     private String keyBooked;
 
-    public ModelBooked(String keyUserBooked, String keyProviderField, String keyFieldBooked, String playtime, String dateBooked, String timeBooked, int statusDP) {
+    public ModelBooked() {
+    }
+
+    public ModelBooked(String keyUserBooked, String keyProviderField, String keyFieldBooked, String playtime, String dateBooked, String timeBooked, int status) {
         this.keyUserBooked = keyUserBooked;
         this.keyProviderField = keyProviderField;
         this.keyFieldBooked = keyFieldBooked;
         this.playtime = playtime;
         this.dateBooked = dateBooked;
         this.timeBooked = timeBooked;
-        this.statusDP = statusDP;
+        this.status = status;
     }
 
     public String getKeyUserBooked() {
@@ -68,12 +71,12 @@ public class ModelBooked {
         this.timeBooked = timeBooked;
     }
 
-    public int getStatusDP() {
-        return statusDP;
+    public int getStatus() {
+        return status;
     }
 
-    public void setStatusDP(int statusDP) {
-        this.statusDP = statusDP;
+    public void setStatus(int statusDP) {
+        this.status = statusDP;
     }
 
     public String getKeyBooked() {

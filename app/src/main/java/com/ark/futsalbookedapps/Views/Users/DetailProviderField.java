@@ -3,6 +3,7 @@ package com.ark.futsalbookedapps.Views.Users;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.TimePickerDialog;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -19,21 +21,33 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ark.futsalbookedapps.Adapter.AdapterDetailProviderField;
+import com.ark.futsalbookedapps.Adapter.AdapterReviewProvider;
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelBooked;
 import com.ark.futsalbookedapps.Models.ModelField;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
+import com.ark.futsalbookedapps.Models.ModelReviewProvider;
 import com.ark.futsalbookedapps.R;
 import com.ark.futsalbookedapps.databinding.ActivityDetailProviderFieldBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
+import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -50,9 +64,18 @@ public class DetailProviderField extends AppCompatActivity {
     // init intent extra
     private String keyProviderField;
     
-    // init adapter
+    // init adapter detail provider
     private AdapterDetailProviderField adapterDetailProviderField;
     private List<ModelField> listField;
+
+    // init adapter user review
+    private AdapterReviewProvider adapterReviewProvider;
+    private List<ModelReviewProvider> listReviewProvider;
+
+    // param pagination data review provider
+    private long countData;
+    private String key = null;
+    private boolean isLoadData = false;
 
     // init bottom sheet dialog
     private BottomSheetDialog bottomSheetDialog;
@@ -70,9 +93,24 @@ public class DetailProviderField extends AppCompatActivity {
 
         keyProviderField = getIntent().getStringExtra("keyProviderField");
 
+        // recycler detail provider
         RecyclerView.LayoutManager layoutManagerProduct = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         binding.recyclerDetailField.setHasFixedSize(true);
         binding.recyclerDetailField.setLayoutManager(layoutManagerProduct);
+
+        if (keyProviderField.equals(Data.uid)){
+            binding.bookedBtn.setEnabled(false);
+        }
+
+        // recycler review user
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        binding.recyclerReviewProviderField.setLayoutManager(layoutManager);
+        binding.recyclerReviewProviderField.setItemAnimator(new DefaultItemAnimator());
+
+        adapterReviewProvider = new AdapterReviewProvider(this);
+        binding.recyclerReviewProviderField.setAdapter(adapterReviewProvider);
+
+        requestReviewProvider();
 
         listenerComponent();
         setDataProviderField();
@@ -83,7 +121,7 @@ public class DetailProviderField extends AppCompatActivity {
         binding.backBtn.setOnClickListener(view -> finish());
         binding.previewLocation.setOnClickListener(view -> Functions.previewStreetMaps(latitude, longitude, this));
         binding.cardWhatsapp.setOnClickListener(view -> {
-            String url = "https://api.whatsapp.com/send?phone=" + phoneNumberProvider;
+            String url = "https://api.whatsapp.com/send?phone=" + "+62"+ phoneNumberProvider;
 
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
@@ -91,6 +129,30 @@ public class DetailProviderField extends AppCompatActivity {
 
         bottomSheetDialog = new BottomSheetDialog(this);
         binding.bookedBtn.setOnClickListener(view -> bottomSheetDialog.show());
+
+        binding.recyclerReviewProviderField.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // get total item in list review provider
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) binding.recyclerReviewProviderField.getLayoutManager();
+                assert linearLayoutManager != null;
+                int totalCategory = linearLayoutManager.getItemCount();
+                Log.d("Total Review Provider", String.valueOf(totalCategory));
+                // check scroll on bottom
+                if (!binding.recyclerReviewProviderField.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE){
+                    // check data item if total item < total data in database == load more data
+                    if (totalCategory < countData){
+                        // load more data
+                        if (!isLoadData){
+                            isLoadData = true;
+                            setDataProviderField();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void setBottomDialogBooked(){
@@ -135,6 +197,12 @@ public class DetailProviderField extends AppCompatActivity {
         MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
         builder.setTitleText("Select Date Booked");
         builder.setSelection(MaterialDatePicker.todayInUtcMilliseconds());
+
+        // calendar constraint
+        CalendarConstraints.Builder calendarConstraintBuilder = new CalendarConstraints.Builder();
+        calendarConstraintBuilder.setValidator(DateValidatorPointForward.now());
+        builder.setCalendarConstraints(calendarConstraintBuilder.build());
+
         MaterialDatePicker<Long> materialDatePicker = builder.build();
 
         cardPickDate.setOnClickListener(view -> materialDatePicker.show(getSupportFragmentManager(), "DATE PICKER"));
@@ -152,6 +220,7 @@ public class DetailProviderField extends AppCompatActivity {
                 calendar.set(0,0,0, hour, minute);
                 textTime.setText(DateFormat.format("hh:mm aa", calendar));
             }, 24, 0, true);
+
             timePickerDialog.show();
         });
 
@@ -178,6 +247,7 @@ public class DetailProviderField extends AppCompatActivity {
                         timeBooked,
                         0
                 );
+
                 bookedField(modelBooked);
                 bottomSheetDialog.dismiss();
             }
@@ -195,10 +265,12 @@ public class DetailProviderField extends AppCompatActivity {
                     binding.fieldNameText.setText(modelProviderField.getName());
                     binding.locationField.setText(modelProviderField.getLocation());
                     binding.numberPhone.setText(modelProviderField.getNumberPhone());
-                    
+                    binding.ratingText.setText("Rating : "+modelProviderField.getRating());
+
                     latitude = modelProviderField.getLatitude();
                     longitude = modelProviderField.getLongitude();
                     phoneNumberProvider = modelProviderField.getNumberPhone();
+
                 }else {
                     Toast.makeText(this, "Data Provider is null", Toast.LENGTH_SHORT).show();
                     finish();
@@ -227,6 +299,7 @@ public class DetailProviderField extends AppCompatActivity {
                     if (listField.size() != 0){
                         adapterDetailProviderField = new AdapterDetailProviderField(DetailProviderField.this, listField);
                         binding.recyclerDetailField.setAdapter(adapterDetailProviderField);
+                        binding.totalField.setText("Total Field : "+listField.size());
                         setBottomDialogBooked();
                     }else {
                         Toast.makeText(DetailProviderField.this, "The field provider has not set the field for rent", Toast.LENGTH_SHORT).show();
@@ -244,9 +317,97 @@ public class DetailProviderField extends AppCompatActivity {
     private void bookedField(ModelBooked modelBooked){
         ReferenceDatabase.referenceBooked.push().setValue(modelBooked).addOnSuccessListener(unused -> {
             Toast.makeText(DetailProviderField.this, "Booked Success", Toast.LENGTH_SHORT).show();
+
+            // create and sending notification
+            ReferenceDatabase.referenceTokenNotification.child(keyProviderField).child("token").get().addOnCompleteListener(this::createNotification);
+
             finish();
         }).addOnFailureListener(e -> Toast.makeText(DetailProviderField.this, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
+    private void createNotification(Task<DataSnapshot> task){
+        String tokenReceiver;
+        if (task.isSuccessful()){
+            tokenReceiver = task.getResult().getValue().toString();
+        }else {
+            Toast.makeText(this, "Notification Task Failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            JSONArray token = new JSONArray();
+            token.put(tokenReceiver);
+
+            JSONObject data = new JSONObject();
+            data.put("title", "Field Booked");
+            data.put("message", "Hi there are customers who have booked your place, let's take a look");
+
+            JSONObject body = new JSONObject();
+            body.put(Data.REMOTE_MSG_DATA, data);
+            body.put(Data.REMOTE_MSG_REGISTRATION_IDS, token);
+
+            Functions.sendNotification(body.toString(), DetailProviderField.this);
+
+        }catch (Exception e){
+            Toast.makeText(this, "Error Notification : "+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void requestReviewProvider(){
+        ReferenceDatabase.referenceReview.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                countData = task.getResult().getChildrenCount();
+                isLoadData = true;
+                setDataReview();
+            }else {
+                Toast.makeText(DetailProviderField.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setDataReview(){
+        if (!isLoadData){
+            return;
+        }
+
+        Query query;
+        if (key == null){
+            query = ReferenceDatabase.referenceReview.child(keyProviderField).orderByKey().limitToFirst(10);
+        }else {
+            query = ReferenceDatabase.referenceReview.child(keyProviderField).orderByKey().startAfter(key).limitToFirst(10);
+        }
+
+        isLoadData = true;
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listReviewProvider = new ArrayList<>();
+                for (DataSnapshot ds : snapshot.getChildren()){
+                    ModelReviewProvider modelReviewProvider = ds.getValue(ModelReviewProvider.class);
+                    if (modelReviewProvider != null){
+                        modelReviewProvider.setKeyReview(ds.getKey());
+                        key = ds.getKey();
+                        listReviewProvider.add(modelReviewProvider);
+                    }
+                }
+
+                Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    adapterReviewProvider.setItem(listReviewProvider);
+                    if (listReviewProvider.size() != 0){
+                        adapterReviewProvider.notifyDataSetChanged();
+                        isLoadData = false;
+                    }else {
+                        Toast.makeText(DetailProviderField.this, "Not yet review", Toast.LENGTH_SHORT).show();
+                    }
+                }, 200);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DetailProviderField.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

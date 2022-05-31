@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -57,8 +58,8 @@ public class Home extends AppCompatActivity {
         adapterHome = new AdapterHome(this);
         binding.recyclerFieldHome.setAdapter(adapterHome);
 
-
         requestDataProvider();
+        setToken();
     }
 
     private void listenerComponent() {
@@ -67,6 +68,8 @@ public class Home extends AppCompatActivity {
                 Functions.updateUI(this, Account.class);
             }
         });
+
+        binding.cardBookedField.setOnClickListener(view -> Functions.updateUI(this, FieldBooked.class));
 
 //        binding.swipeRefresh.setOnRefreshListener(() -> {
 //            key = null;
@@ -187,5 +190,13 @@ public class Home extends AppCompatActivity {
                 Toast.makeText(Home.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setToken(){
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
+    }
+
+    private void updateToken(String token){
+        ReferenceDatabase.referenceTokenNotification.child(Data.uid).child("token").setValue(token);
     }
 }

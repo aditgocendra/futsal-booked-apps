@@ -58,4 +58,9 @@
     <string name="review_user">Review user</string>
     <string name="_5_0">5.0</string>
     <string name="review_field">Review Field</string>
+    <string name="waiting_paid">Waiting Paid</string>
+    <string name="canceled">Canceled</string>
+    <string name="filter_status">Filter Status</string>
+    <string name="dp_payment_in_full">DP Payment In Full</string>
+    <string name="booked_finish">Booked Finish</string>
 </resources>

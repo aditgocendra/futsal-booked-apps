@@ -24,7 +24,7 @@
             android:background="@color/primary"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -38,21 +38,30 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@drawable/ic_arrow_back"
-                    android:layout_centerVertical="true"
+                    android:layout_weight="0"
                     android:contentDescription="@string/image" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:text="@string/booked_field"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
                     android:fontFamily="@font/poppins_medium"
                     android:includeFontPadding="false"
-                    android:text="@string/booked_field"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:layout_gravity="center"
+                    android:layout_weight="1"/>
 
-            </RelativeLayout>
+                <ImageView
+                    android:id="@+id/filter_btn"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_filter"
+                    android:layout_weight="0"
+                    android:contentDescription="@string/image" />
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -60,7 +69,7 @@
             android:id="@+id/recycler_field_booked"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            tools:listitem="@layout/layout_card_booked" />
 
     </LinearLayout>
 

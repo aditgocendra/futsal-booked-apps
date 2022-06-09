@@ -27,7 +27,6 @@
                     android:id="@+id/image_field"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:src="@drawable/futsal_field"
                     android:scaleType="centerCrop"/>
 
             </androidx.cardview.widget.CardView>
@@ -41,7 +40,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_booked"
+                    android:text="Pemboking Lapangan"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"/>
@@ -49,7 +48,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/field"
+                    android:text="Tanggal Bermain"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"
@@ -58,7 +57,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Play Date"
+                    android:text="Waktu Bermain"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"
@@ -67,16 +66,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Playtime"
-                    android:textSize="11sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="3dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Status Booked"
+                    android:text="Status Booking"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"
@@ -100,15 +90,7 @@
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"/>
 
-                <TextView
-                    android:id="@+id/field_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textSize="11sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="3dp"/>
+
 
                 <TextView
                     android:id="@+id/playdate_text"
@@ -144,28 +126,36 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/confirmation_paid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Konfirmasi Pembayaran"
+            android:textAllCaps="false"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="6dp">
+            android:orientation="horizontal">
 
             <Button
-                android:id="@+id/confirmation_paid"
+                android:id="@+id/contact_user_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/confirmation_paid"
+                android:text="Kontak Customer"
                 android:textAllCaps="false"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="12sp"
-                android:layout_weight="1"
-                android:layout_marginEnd="4dp"/>
+                android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/cancel_booked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cancel_booked"
+                android:text="Batalkan"
                 android:textAllCaps="false"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="12sp"
@@ -173,16 +163,6 @@
                 android:layout_marginStart="4dp"/>
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/contact_user_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/contact_user"
-            android:textAllCaps="false"
-            android:fontFamily="@font/poppins_medium"
-            android:textSize="12sp"
-            android:backgroundTint="@color/primary_dark"/>
 
     </LinearLayout>
 

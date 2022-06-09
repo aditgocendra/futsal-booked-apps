@@ -1,16 +1,17 @@
 package com.ark.futsalbookedapps.Views.ProviderField;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
+
 import com.ark.futsalbookedapps.Adapter.AdapterDashboard;
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
-import com.ark.futsalbookedapps.Models.ModelField;
+import com.ark.futsalbookedapps.Models.ModelGallery;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
 import com.ark.futsalbookedapps.Views.Users.Home;
 import com.ark.futsalbookedapps.databinding.ActivityDashboardBinding;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,9 +27,8 @@ import java.util.Objects;
 public class Dashboard extends AppCompatActivity {
 
     private ActivityDashboardBinding binding;
-
-    private List<ModelField> listField;
     private AdapterDashboard adapterDashboard;
+    private List<ModelGallery> listGallery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class Dashboard extends AppCompatActivity {
         adapterDashboard = new AdapterDashboard(this);
         binding.recyclerFieldGrid.setAdapter(adapterDashboard);
 
-        setDataField();
+        setDataGallery();
     }
 
     @Override
@@ -59,10 +60,8 @@ public class Dashboard extends AppCompatActivity {
     private void listenerComponent() {
         binding.backBtn.setOnClickListener(view -> finish());
 
-        binding.cardAddField.setOnClickListener(view -> Functions.updateUI(this, FieldAdd.class));
-
+        binding.cardAddGallery.setOnClickListener(view -> Functions.updateUI(this, GalleryImageAdd.class));
         binding.cardReviewUser.setOnClickListener(view -> Functions.updateUI(this, ReviewField.class));
-
         binding.cardProvider.setOnClickListener(view -> Functions.updateUI(this, UpdateDataProvider.class));
         binding.cardBooked.setOnClickListener(view -> Functions.updateUI(this, ManageBookedField.class));
     }
@@ -73,6 +72,8 @@ public class Dashboard extends AppCompatActivity {
                 ModelProviderField modelProviderField = task.getResult().getValue(ModelProviderField.class);
                 if (modelProviderField != null){
                     binding.fieldNameText.setText(modelProviderField.getName());
+                    binding.ratingText.setText("Rating : "+modelProviderField.getRating());
+
                     Picasso.get().load(modelProviderField.getUrlPhotoField()).into(binding.imageField);
                 }else {
                     Toast.makeText(Dashboard.this, "Provider field is null", Toast.LENGTH_SHORT).show();
@@ -85,25 +86,25 @@ public class Dashboard extends AppCompatActivity {
         });
     }
 
-    private void setDataField() {
-        ReferenceDatabase.referenceField.child(Data.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void setDataGallery() {
+        ReferenceDatabase.referenceGallery.child(Data.uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listField = new ArrayList<>();
+                listGallery = new ArrayList<>();
                 for (DataSnapshot ds : snapshot.getChildren()){
-                    ModelField modelField = ds.getValue(ModelField.class);
-                    if (modelField != null){
-                        modelField.setKeyField(ds.getKey());
-                        listField.add(modelField);
+                    ModelGallery modelGallery = ds.getValue(ModelGallery.class);
+                    if (modelGallery != null){
+                        modelGallery.setKeyGallery(ds.getKey());
+                        listGallery.add(modelGallery);
                     }
                 }
 
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
-                    if (listField.size() != 0){
-                        adapterDashboard.setItem(listField);
+                    if (listGallery.size() != 0){
+                        adapterDashboard.setItem(listGallery);
                     }else {
-                        Toast.makeText(Dashboard.this, "Not yet field", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Dashboard.this, "Not yet image gallery", Toast.LENGTH_SHORT).show();
                     }
                     adapterDashboard.notifyDataSetChanged();
                 }, 200);

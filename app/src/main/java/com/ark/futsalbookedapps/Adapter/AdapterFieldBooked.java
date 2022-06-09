@@ -19,7 +19,7 @@ import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelBooked;
-import com.ark.futsalbookedapps.Models.ModelField;
+import com.ark.futsalbookedapps.Models.ModelNotification;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
 import com.ark.futsalbookedapps.Models.ModelReviewProvider;
 import com.ark.futsalbookedapps.R;
@@ -42,6 +42,10 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     private Dialog dialogBankAccount;
 
     private BottomSheetDialog bottomSheetDialog;
+
+    // notification
+    private String title = "Futsaloka";
+    private String msg = "Haloo penyedia lapangan, telah ada pengguna yang memberikan review kepadamu";
 
     public AdapterFieldBooked(Context context) {
         this.context = context;
@@ -66,11 +70,9 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
         // set data provider field
         setProviderField(modelBooked.getKeyProviderField(), holder);
 
-        // set data field booked
-        setDataField(modelBooked.getKeyProviderField(), modelBooked.getKeyFieldBooked(), holder);
 
         // set data booked
-        holder.playtimeText.setText(modelBooked.getPlaytime()+" Hours");
+        holder.playtimeText.setText(modelBooked.getPlaytime()+" Jam");
         holder.datePlayText.setText(modelBooked.getDateBooked());
         holder.timePlayText.setText(modelBooked.getTimeBooked());
 
@@ -102,8 +104,6 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
             setBottomSheetDialog(modelBooked, position);
             bottomSheetDialog.show();
         });
-
-
     }
 
     @Override
@@ -112,14 +112,13 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     }
 
     public static class FieldBookedVH extends RecyclerView.ViewHolder {
-        TextView providerFieldText, fieldText, playtimeText, minimumDpText, bankAccNumber, statusText, datePlayText, timePlayText;
+        TextView providerFieldText, playtimeText, minimumDpText, bankAccNumber, statusText, datePlayText, timePlayText;
         ImageView imageField;
         Button previewLocBtn, contactProvider, ratingBtn;
         public FieldBookedVH(@NonNull View itemView) {
             super(itemView);
 
             providerFieldText = itemView.findViewById(R.id.provider_field_text);
-            fieldText = itemView.findViewById(R.id.field_text);
             playtimeText = itemView.findViewById(R.id.playtime_text);
             minimumDpText = itemView.findViewById(R.id.minimum_dp_text);
             bankAccNumber = itemView.findViewById(R.id.bank_acc_number);
@@ -138,7 +137,8 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
             if (task.isSuccessful()){
                 ModelProviderField modelProviderField = task.getResult().getValue(ModelProviderField.class);
                 assert modelProviderField != null;
-                holder.providerFieldText.setText(modelProviderField.getName());
+                holder.providerFieldText.setText(Functions.capitalizeWord(modelProviderField.getName()));
+                Picasso.get().load(modelProviderField.getUrlPhotoField()).into(holder.imageField);
 
                 // contact provider
                 holder.contactProvider.setOnClickListener(view -> {
@@ -180,19 +180,6 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
             }
         });
     }
-    private void setDataField(String keyProviderField, String keyFieldBooked, FieldBookedVH holder) {
-        ReferenceDatabase.referenceField.child(keyProviderField).child(keyFieldBooked).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                ModelField modelField = task.getResult().getValue(ModelField.class);
-                assert modelField != null;
-                holder.fieldText.setText(modelField.getTypeField());
-                holder.minimumDpText.setText(Functions.currencyRp(modelField.getMinDP()));
-                Picasso.get().load(modelField.getUrlField()).into(holder.imageField);
-            }else {
-                Toast.makeText(context, "Error : "+ Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void setBottomSheetDialog(ModelBooked modelBooked, int pos){
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -208,11 +195,10 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
             String comment = commentReview.getText().toString();
 
             if (rating <= 0){
-                Toast.makeText(context, "Please insert rating", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Rating masih kosong", Toast.LENGTH_SHORT).show();
             }else if (comment.isEmpty()){
-                Toast.makeText(context, "Comment cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Komentar tidak boleh kosong", Toast.LENGTH_SHORT).show();
             }else {
-
                 createReview(modelBooked, rating, comment, pos);
                 bottomSheetDialog.dismiss();
             }
@@ -237,6 +223,8 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
                     ReferenceDatabase.referenceTokenNotification.child(modelBooked.getKeyProviderField()).child("token").get()
                             .addOnCompleteListener(this::createNotification);
 
+                    saveNotification(title, msg, modelBooked.getKeyProviderField());
+
                     // change status booked
                     updateStatusBooked(modelBooked, 303, pos);
 
@@ -253,11 +241,12 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     }
 
     double totalRating = 0;
+    long totalReview;
     private void countRatingProviderField(String keyProviderField){
         ReferenceDatabase.referenceReview.child(keyProviderField).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                totalReview = snapshot.getChildrenCount();
                 for (DataSnapshot ds : snapshot.getChildren()){
                     ModelReviewProvider modelReviewProvider = ds.getValue(ModelReviewProvider.class);
                     if (modelReviewProvider != null){
@@ -277,8 +266,16 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     }
 
     private void updateRatingProvider(String keyProviderField){
-        ReferenceDatabase.referenceProviderField.child(keyProviderField).child("rating").setValue(totalRating)
+        ReferenceDatabase.referenceProviderField.child(keyProviderField).child("rating").setValue(totalRating / totalReview)
                 .addOnFailureListener(e -> Toast.makeText(context, "Error Update Rating Provider : "+e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    private void saveNotification(String header, String msg, String keyReceiver){
+        ModelNotification modelNotification = new ModelNotification(
+                header,
+                msg
+        );
+        ReferenceDatabase.referenceNotification.child(keyReceiver).push().setValue(modelNotification);
     }
 
     private void createNotification(Task<DataSnapshot> task){
@@ -295,8 +292,8 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
             token.put(tokenReceiver);
 
             JSONObject data = new JSONObject();
-            data.put("title", "Futsaloka");
-            data.put("message", "Hello field providers, it seems, there is a new review for you, let's have a look");
+            data.put("title", title);
+            data.put("message", msg);
 
             JSONObject body = new JSONObject();
             body.put(Data.REMOTE_MSG_DATA, data);

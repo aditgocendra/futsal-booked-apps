@@ -3,7 +3,6 @@ package com.ark.futsalbookedapps.Models;
 public class ModelBooked {
     private String keyUserBooked;
     private String keyProviderField;
-    private String keyFieldBooked;
     private String playtime;
     private String dateBooked;
     private String timeBooked;
@@ -13,10 +12,9 @@ public class ModelBooked {
     public ModelBooked() {
     }
 
-    public ModelBooked(String keyUserBooked, String keyProviderField, String keyFieldBooked, String playtime, String dateBooked, String timeBooked, int status) {
+    public ModelBooked(String keyUserBooked, String keyProviderField, String playtime, String dateBooked, String timeBooked, int status) {
         this.keyUserBooked = keyUserBooked;
         this.keyProviderField = keyProviderField;
-        this.keyFieldBooked = keyFieldBooked;
         this.playtime = playtime;
         this.dateBooked = dateBooked;
         this.timeBooked = timeBooked;
@@ -37,14 +35,6 @@ public class ModelBooked {
 
     public void setKeyProviderField(String keyProviderField) {
         this.keyProviderField = keyProviderField;
-    }
-
-    public String getKeyFieldBooked() {
-        return keyFieldBooked;
-    }
-
-    public void setKeyFieldBooked(String keyFieldBooked) {
-        this.keyFieldBooked = keyFieldBooked;
     }
 
     public String getPlaytime() {
@@ -75,8 +65,8 @@ public class ModelBooked {
         return status;
     }
 
-    public void setStatus(int statusDP) {
-        this.status = statusDP;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getKeyBooked() {

@@ -14,35 +14,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.ark.futsalbookedapps.Globals.Data;
-import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
-import com.ark.futsalbookedapps.Models.ModelField;
+import com.ark.futsalbookedapps.Models.ModelGallery;
 import com.ark.futsalbookedapps.R;
-import com.ark.futsalbookedapps.Views.ProviderField.ProviderFieldRegister;
-import com.ark.futsalbookedapps.Views.ProviderField.UpdateField;
-import com.ark.futsalbookedapps.Views.Users.Account;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.ark.futsalbookedapps.Views.ProviderField.UpdateGallery;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.DashboardVH> {
 
     private final Context context;
-    private List<ModelField> listField = new ArrayList<>();
+    private List<ModelGallery> listGallery = new ArrayList<>();
 
     public AdapterDashboard(Context context) {
         this.context = context;
     }
 
-    public void setItem(List<ModelField> listField){
-        this.listField = listField;
+    public void setItem(List<ModelGallery> listGallery){
+        this.listGallery = listGallery;
     }
 
 
@@ -56,13 +50,13 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Dash
 
     @Override
     public void onBindViewHolder(@NonNull DashboardVH holder, int position) {
-        ModelField modelField = listField.get(position);
-        Picasso.get().load(modelField.getUrlField()).into(holder.imageField);
-        holder.typeField.setText(modelField.getTypeField());
+        ModelGallery modelGallery = listGallery.get(position);
+        Picasso.get().load(modelGallery.getImageGalleryUrl()).into(holder.imageField);
+
 
         holder.cardEdit.setOnClickListener(view -> {
-            Intent intent = new Intent(context, UpdateField.class);
-            intent.putExtra("keyField", modelField.getKeyField());
+            Intent intent = new Intent(context, UpdateGallery.class);
+            intent.putExtra("keyGallery", modelGallery.getKeyGallery());
             context.startActivity(intent);
         });
 
@@ -97,16 +91,15 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Dash
             cancel.setOnClickListener(v -> dialog.dismiss());
 
             okay.setOnClickListener(v -> {
-                deleteImageField(modelField.getKeyField(), modelField.getUrlField(), position);
+                deleteImageField(modelGallery.getKeyGallery(), modelGallery.getImageGalleryUrl(), position);
                 dialog.dismiss();
             });
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return listField.size();
+        return listGallery.size();
     }
 
     public static class DashboardVH extends RecyclerView.ViewHolder {
@@ -131,13 +124,13 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Dash
 
         deleteRef.delete()
                 .addOnFailureListener(e -> Toast.makeText(context, "Delete data failed", Toast.LENGTH_SHORT).show())
-                .addOnSuccessListener(unused -> deleteFieldData(keyField, pos));
+                .addOnSuccessListener(unused -> deleteGalleryData(keyField, pos));
     }
 
-    private void deleteFieldData(String keyField, int pos){
-        ReferenceDatabase.referenceField.child(Data.uid).child(keyField).removeValue()
+    private void deleteGalleryData(String keyField, int pos){
+        ReferenceDatabase.referenceGallery.child(Data.uid).child(keyField).removeValue()
                 .addOnSuccessListener(unused -> {
-                    listField.remove(pos);
+                    listGallery.remove(pos);
                     this.notifyItemRemoved(pos);
                     Toast.makeText(context, "Success delete data", Toast.LENGTH_SHORT).show();
                 })

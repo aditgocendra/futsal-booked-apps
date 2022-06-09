@@ -5,25 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
-
-import com.ark.futsalbookedapps.Adapter.AdapterFieldBooked;
 import com.ark.futsalbookedapps.Adapter.AdapterManageBookedField;
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelBooked;
-import com.ark.futsalbookedapps.Views.Users.FieldBooked;
+import com.ark.futsalbookedapps.R;
 import com.ark.futsalbookedapps.databinding.ActivityManageBookedFieldBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,6 +39,12 @@ public class ManageBookedField extends AppCompatActivity {
     private long countData;
     private String key = null;
     private boolean isLoadData = false;
+
+    // Bottom Sheet Dialog
+    private BottomSheetDialog bottomSheetDialog;
+
+    // filter data
+    int status = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,12 @@ public class ManageBookedField extends AppCompatActivity {
                 }
             }
         });
+
+        bottomSheetDialog = new BottomSheetDialog(this);
+        setBottomDialogFilter();
+        binding.filterBtn.setOnClickListener(view -> {
+            bottomSheetDialog.show();
+        });
     }
 
     private void requestDataBooked(){
@@ -118,24 +129,36 @@ public class ManageBookedField extends AppCompatActivity {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                binding.progressCircular.setVisibility(View.VISIBLE);
                 for (DataSnapshot ds : snapshot.getChildren()){
                     ModelBooked modelBooked = ds.getValue(ModelBooked.class);
                     if (modelBooked != null){
-                        modelBooked.setKeyBooked(ds.getKey());
-                        key = ds.getKey();
-                        listBooked.add(modelBooked);
+                        // filter condition
+                        if (status == 500){
+                            modelBooked.setKeyBooked(ds.getKey());
+                            listBooked.add(modelBooked);
+                            key = ds.getKey();
+                        }else {
+                            if (modelBooked.getStatus() == status){
+                                modelBooked.setKeyBooked(ds.getKey());
+                                listBooked.add(modelBooked);
+                                key = ds.getKey();
+                            }
+                        }
                     }
                 }
 
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
-                    adapterManageBookedField.setItem(listBooked);
+
                     if (listBooked.size() != 0){
-                        adapterManageBookedField.notifyDataSetChanged();
-                        isLoadData = false;
+                        adapterManageBookedField.setItem(listBooked);
                     }else {
                         Toast.makeText(ManageBookedField.this, "Not Yet Booked", Toast.LENGTH_SHORT).show();
                     }
+                    adapterManageBookedField.notifyDataSetChanged();
+                    isLoadData = false;
+                    binding.progressCircular.setVisibility(View.GONE);
                 }, 200);
             }
 
@@ -144,5 +167,63 @@ public class ManageBookedField extends AppCompatActivity {
                 Toast.makeText(ManageBookedField.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setBottomDialogFilter(){
+        View viewBottomDialog = getLayoutInflater().inflate(R.layout.layout_filter_booked, null, false);
+
+        Button waitingPaid, cancelled, dpPay, bookedFinish;
+        waitingPaid = viewBottomDialog.findViewById(R.id.waiting_paid_btn);
+        cancelled = viewBottomDialog.findViewById(R.id.cancelled_btn);
+        dpPay = viewBottomDialog.findViewById(R.id.dp_pay_btn);
+        bookedFinish = viewBottomDialog.findViewById(R.id.booked_finish_btn);
+
+        waitingPaid.setOnClickListener(view -> {
+            waitingPaid.setEnabled(false);
+            cancelled.setEnabled(true);
+            dpPay.setEnabled(true);
+            bookedFinish.setEnabled(true);
+            filterData(0);
+            bottomSheetDialog.dismiss();
+        });
+
+        cancelled.setOnClickListener(view -> {
+            cancelled.setEnabled(false);
+            waitingPaid.setEnabled(true);
+            dpPay.setEnabled(true);
+            bookedFinish.setEnabled(true);
+            filterData(101);
+            bottomSheetDialog.dismiss();
+        });
+
+        dpPay.setOnClickListener(view -> {
+            dpPay.setEnabled(false);
+            waitingPaid.setEnabled(true);
+            cancelled.setEnabled(true);
+            bookedFinish.setEnabled(true);
+            filterData(202);
+            bottomSheetDialog.dismiss();
+        });
+
+        bookedFinish.setOnClickListener(view -> {
+            bookedFinish.setEnabled(false);
+            waitingPaid.setEnabled(true);
+            cancelled.setEnabled(true);
+            dpPay.setEnabled(true);
+            filterData(303);
+            bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.setContentView(viewBottomDialog);
+
+    }
+
+    private void filterData(int codeStatus){
+        status = codeStatus;
+        key = null;
+        listBooked.clear();
+        isLoadData = true;
+        setDataBooked();
+
     }
 }

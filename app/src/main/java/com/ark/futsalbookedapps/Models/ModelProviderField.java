@@ -9,12 +9,15 @@ public class ModelProviderField {
     private double latitude;
     private double longitude;
     private double rating;
+    private String openTime;
+    private String closeTime;
+    private int priceField;
     private String keyUserProviderField;
 
     public ModelProviderField() {
     }
 
-    public ModelProviderField(String name, String urlPhotoField, String numberPhone, String bankAccountNumber, String location, double latitude, double longitude, double rating) {
+    public ModelProviderField(String name, String urlPhotoField, String numberPhone, String bankAccountNumber, String location, double latitude, double longitude, double rating, String openTime, String closeTime, int priceField) {
         this.name = name;
         this.urlPhotoField = urlPhotoField;
         this.numberPhone = numberPhone;
@@ -23,14 +26,9 @@ public class ModelProviderField {
         this.latitude = latitude;
         this.longitude = longitude;
         this.rating = rating;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.priceField = priceField;
     }
 
     public String getName() {
@@ -49,14 +47,6 @@ public class ModelProviderField {
         this.urlPhotoField = urlPhotoField;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getNumberPhone() {
         return numberPhone;
     }
@@ -73,6 +63,14 @@ public class ModelProviderField {
         this.bankAccountNumber = bankAccountNumber;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public double getLatitude() {
         return latitude;
     }
@@ -87,6 +85,38 @@ public class ModelProviderField {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(String openTime) {
+        this.openTime = openTime;
+    }
+
+    public String getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(String closeTime) {
+        this.closeTime = closeTime;
+    }
+
+    public int getPriceField() {
+        return priceField;
+    }
+
+    public void setPriceField(int priceField) {
+        this.priceField = priceField;
     }
 
     public String getKeyUserProviderField() {

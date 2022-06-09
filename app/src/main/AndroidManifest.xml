@@ -18,6 +18,9 @@
         android:theme="@style/Theme.FutsalBookedApps"
         tools:targetApi="31">
         <activity
+            android:name=".Views.Users.Notification"
+            android:exported="false" />
+        <activity
             android:name=".Views.ProviderField.ReviewField"
             android:exported="false" />
         <activity
@@ -27,25 +30,20 @@
             android:name=".Views.Users.FieldBooked"
             android:exported="false" />
         <activity
-            android:name=".Views.Users.DetailProviderField"
-            android:exported="false" />
-        <activity
-            android:name=".Views.ProviderField.UpdateField"
+            android:name=".Views.ProviderField.UpdateGallery"
             android:exported="false" />
         <activity
             android:name=".Views.ProviderField.UpdateDataProvider"
             android:exported="false" />
         <activity
             android:name=".Views.ProviderField.ProviderFieldRegister"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".Views.ProviderField.FieldAdd"
+            android:name=".Views.ProviderField.GalleryImageAdd"
             android:exported="false" />
         <activity
             android:name=".Views.ProviderField.Dashboard"
-            android:exported="false" />
-        <activity
-            android:name=".Views.Users.Account"
             android:exported="false" />
         <activity
             android:name=".Views.Users.Home"
@@ -83,7 +81,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logo_apps" />
-
     </application>
 
 </manifest>

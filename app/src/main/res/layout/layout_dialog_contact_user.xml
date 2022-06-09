@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/user_contact"
+        android:text="Kontak"
         android:textSize="18sp"
         android:textColor="@color/black"
         android:fontFamily="@font/poppins_semi_bold"

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pesan"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pilih Tanggal"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:textSize="12sp"
+            android:layout_weight="1"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_date_pick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="@color/primary"
+            android:layout_margin="1dp"
+            android:layout_weight="0">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_calendar"
+                android:layout_margin="12.5sp"
+                android:contentDescription="@string/image" />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_time_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pilih Waktu"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:textSize="12sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_time_pick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+
+    </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/layout_pick_time"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:visibility="gone">-->
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/card_pick_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:cardCornerRadius="8dp"-->
+<!--            app:cardBackgroundColor="@color/primary"-->
+<!--            android:layout_margin="1dp"-->
+<!--            android:layout_weight="0">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_pick_time"-->
+<!--                android:layout_margin="12.5sp"-->
+<!--                android:contentDescription="@string/image" />-->
+
+<!--        </androidx.cardview.widget.CardView>-->
+
+<!--    </LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/layout_pick_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pilih Durasi"
+            android:textSize="12.5sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:layout_marginBottom="16dp"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="16dp">
+
+                    <TextView
+                        android:id="@+id/duration_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 Jam"
+                        android:background="@drawable/background_full_corner"
+                        android:textColor="@color/primary"
+                        android:textSize="12.5sp"
+                        android:paddingStart="28dp"
+                        android:paddingEnd="28dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:fontFamily="@font/poppins_semi_bold"/>
+
+                    <TextView
+                        android:id="@+id/text_price_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. 100.000"
+                        android:textSize="11sp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="16dp">
+
+                    <TextView
+                        android:id="@+id/duration_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2 Jam"
+                        android:background="@drawable/background_full_corner"
+                        android:textColor="@color/primary"
+                        android:textSize="12.5sp"
+                        android:paddingStart="28dp"
+                        android:paddingEnd="28dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:fontFamily="@font/poppins_semi_bold"/>
+
+                    <TextView
+                        android:id="@+id/text_price_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. 200.000"
+                        android:textSize="11sp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="16dp">
+
+                    <TextView
+                        android:id="@+id/duration_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 Jam"
+                        android:background="@drawable/background_full_corner"
+                        android:textColor="@color/primary"
+                        android:textSize="12.5sp"
+                        android:paddingStart="28dp"
+                        android:paddingEnd="28dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:fontFamily="@font/poppins_semi_bold"/>
+
+                    <TextView
+                        android:id="@+id/text_price_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. 300.000"
+                        android:textSize="11sp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="16dp">
+
+                    <TextView
+                        android:id="@+id/duration_four"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4 Jam"
+                        android:background="@drawable/background_full_corner"
+                        android:textColor="@color/primary"
+                        android:textSize="12.5sp"
+                        android:paddingStart="28dp"
+                        android:paddingEnd="28dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:fontFamily="@font/poppins_semi_bold"/>
+
+                    <TextView
+                        android:id="@+id/text_price_four"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. 400.000"
+                        android:textSize="11sp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_total_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="18sp"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:textColor="@color/primary"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lanjut"
+            android:fontFamily="@font/poppins_medium"
+            android:textAllCaps="false"
+            android:includeFontPadding="false"
+            android:layout_weight="0"
+            android:enabled="false"
+            android:backgroundTint="#FFC107"/>
+
+    </LinearLayout>
+
+</LinearLayout>

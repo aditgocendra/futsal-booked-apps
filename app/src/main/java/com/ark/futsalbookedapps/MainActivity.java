@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(() -> {
             if (firebaseUser != null){
                 Functions.updateUI(MainActivity.this, Home.class);
+                finish();
                 Data.uid = firebaseUser.getUid();
             }else {
                 Functions.updateUI(MainActivity.this, Authentication.class);

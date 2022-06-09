@@ -13,23 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelAccount;
 import com.ark.futsalbookedapps.Models.ModelBooked;
-import com.ark.futsalbookedapps.Models.ModelField;
+import com.ark.futsalbookedapps.Models.ModelNotification;
 import com.ark.futsalbookedapps.R;
-import com.ark.futsalbookedapps.Views.Users.DetailProviderField;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +34,10 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
     private Context context;
     private List<ModelBooked> listBooked = new ArrayList<>();
     private BottomSheetDialog bottomSheetDialogAccount;
+
+    // notification
+    private String title = "Futsaloka";
+    private String msg = "Haloo, sepertinya lapangan yang kamu booking telah berubah statusnya";
 
     public AdapterManageBookedField(Context context) {
         this.context = context;
@@ -82,7 +81,7 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
 
 
         // set data field booked
-        setDataField(modelBooked.getKeyProviderField(), modelBooked.getKeyFieldBooked(), holder);
+//        setDataField(modelBooked.getKeyProviderField(), modelBooked.getKeyFieldBooked(), holder);
 
         // set data user booked
         bottomSheetDialogAccount = new BottomSheetDialog(context);
@@ -150,8 +149,8 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
             TextView messageText, headerText;
             headerText = dialog.findViewById(R.id.textView);
             messageText = dialog.findViewById(R.id.textView2);
-            headerText.setText("Confirmation DP");
-            messageText.setText("Has the user made a payment ?");
+            headerText.setText("Konfirmasi DP");
+            messageText.setText("Apakah pelanggan telah membayar DP ?");
 
             dialog.show();
 
@@ -170,7 +169,7 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
     }
 
     public static class ManageBookedFieldVH extends RecyclerView.ViewHolder {
-        TextView userFieldText, fieldText, playDateText, playtimeText, statusText;
+        TextView userFieldText, playDateText, playtimeText, statusText;
         ImageView imageField;
         Button contactUserBtn, confirmPaidBtn, cancelBtn;
 
@@ -178,7 +177,6 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
             super(itemView);
 
             userFieldText = itemView.findViewById(R.id.username_text);
-            fieldText = itemView.findViewById(R.id.field_text);
             playDateText = itemView.findViewById(R.id.playdate_text);
             playtimeText = itemView.findViewById(R.id.playtime_text);
             statusText = itemView.findViewById(R.id.status_text);
@@ -234,18 +232,18 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
 
     }
 
-    private void setDataField(String keyProviderField, String keyFieldBooked, ManageBookedFieldVH holder) {
-        ReferenceDatabase.referenceField.child(keyProviderField).child(keyFieldBooked).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                ModelField modelField = task.getResult().getValue(ModelField.class);
-                assert modelField != null;
-                holder.fieldText.setText(modelField.getTypeField());
-                Picasso.get().load(modelField.getUrlField()).into(holder.imageField);
-            }else {
-                Toast.makeText(context, "Error : "+ Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void setDataField(String keyProviderField, String keyFieldBooked, ManageBookedFieldVH holder) {
+//        ReferenceDatabase.referenceField.child(keyProviderField).child(keyFieldBooked).get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()){
+//                ModelField modelField = task.getResult().getValue(ModelField.class);
+//                assert modelField != null;
+//                holder.fieldText.setText(modelField.getTypeField());
+//                Picasso.get().load(modelField.getUrlField()).into(holder.imageField);
+//            }else {
+//                Toast.makeText(context, "Error : "+ Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void updateStatusBooked(ModelBooked modelBooked, int status,  int position) {
         modelBooked.setStatus(status);
@@ -256,6 +254,8 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
 
             ReferenceDatabase.referenceTokenNotification.child(modelBooked.getKeyUserBooked()).child("token").get()
                     .addOnCompleteListener(this::createNotificationStatus);
+
+            saveNotification(title, msg, modelBooked.getKeyUserBooked());
 
         }).addOnFailureListener(e -> Toast.makeText(context, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
@@ -274,8 +274,8 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
             token.put(tokenReceiver);
 
             JSONObject data = new JSONObject();
-            data.put("title", "Futsaloka");
-            data.put("message", "Hello, it seems the order status has changed, let's see");
+            data.put("title", title);
+            data.put("message", msg);
 
             JSONObject body = new JSONObject();
             body.put(Data.REMOTE_MSG_DATA, data);
@@ -286,5 +286,13 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
         }catch (Exception e){
             Toast.makeText(context, "Error Notification : "+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void saveNotification(String header, String msg, String keyReceiver){
+        ModelNotification modelNotification = new ModelNotification(
+                header,
+                msg
+        );
+        ReferenceDatabase.referenceNotification.child(keyReceiver).push().setValue(modelNotification);
     }
 }

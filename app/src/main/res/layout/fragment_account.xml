@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Views.Users.FragmentAccount">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:translationZ="1dp"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@drawable/background_top_profile"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="?attr/actionBarSize"-->
+<!--                android:layout_marginTop="36dp"-->
+<!--                android:layout_marginBottom="12dp"-->
+<!--                android:background="@color/transparent"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/poppins_medium"-->
+<!--                    android:includeFontPadding="false"-->
+<!--                    android:text="Account"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="19sp"-->
+<!--                    android:textAlignment="center"/>-->
+
+<!--            </LinearLayout>-->
+
+            <ImageView
+                android:id="@+id/profile_img"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="90dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/image"
+                android:src="@drawable/default_profile" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="3dp"
+                        android:hint="Email"
+                        android:textColorHint="#B3B3B3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/email_edit_ti"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:drawableStart="@drawable/ic_email"
+                            android:drawablePadding="8dp"
+                            android:enabled="false"
+                            android:fontFamily="@font/poppins_medium"
+                            android:inputType="textEmailAddress"
+                            android:textColor="#B3B3B3"
+                            android:textSize="12sp"
+                            app:drawableTint="@color/primary" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:hint="Username"
+                        android:textColorHint="#B3B3B3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/username_edit_ti"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:drawableStart="@drawable/ic_account_circle"
+                            android:drawablePadding="8dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:inputType="text"
+                            android:textColor="#B3B3B3"
+                            android:textSize="12sp"
+                            app:drawableTint="@color/primary" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:hint="@string/phone_number"
+                        android:textColorHint="#B3B3B3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/phone_number_edit_ti"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:drawableStart="@drawable/ic_number_phone"
+                            android:drawablePadding="8dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:inputType="number"
+                            android:textColor="#B3B3B3"
+                            android:textSize="12sp"
+
+                            app:drawableTint="@color/primary" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/edit_data_profile_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginBottom="3dp"
+                        android:backgroundTint="@color/primary"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Simpan Perubahan"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/futsal_field_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="8dp"
+                        android:text="Penyedia Lapangan"
+                        android:textSize="12sp"
+                        android:textColor="#B3B3B3"
+                        app:drawableEndCompat="@drawable/ic_soccer"
+                        app:drawableTint="@color/primary" />
+
+                    <TextView
+                        android:id="@+id/logout_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="8dp"
+                        android:textSize="12sp"
+                        android:text="Sign Out"
+                        android:textColor="#B3B3B3"
+                        app:drawableEndCompat="@drawable/ic_logout"
+                        app:drawableTint="@color/primary" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
+import android.app.TimePickerDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,6 +15,7 @@ import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Toast;
 import com.ark.futsalbookedapps.Globals.Data;
@@ -33,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -51,7 +54,10 @@ public class UpdateDataProvider extends AppCompatActivity {
     private double latitude, longitude;
 
     // init attr data
-    private String fieldName, phoneNumber, accNumber, location, oldUrl;
+    private String fieldName, phoneNumber, accNumber, location, oldUrl, openTime, closeTime;
+    private int priceField;
+
+    private int hourOpen, minuteOpen, hourClose, minuteClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +93,9 @@ public class UpdateDataProvider extends AppCompatActivity {
             phoneNumber = Objects.requireNonNull(binding.numberPhoneEdit.getText()).toString();
             accNumber = Objects.requireNonNull(binding.bankAccountNumberEdit.getText()).toString();
             location = Objects.requireNonNull(binding.locationEdit.getText()).toString();
+            priceField = Integer.parseInt(Objects.requireNonNull(binding.priceField.getText()).toString());
+            openTime = binding.timeOpenResult.getText().toString();
+            closeTime = binding.timeCloseResult.getText().toString();
 
             if (fieldName.isEmpty()){
                 Toast.makeText(this, "Field name cannot be empty", Toast.LENGTH_SHORT).show();
@@ -96,6 +105,10 @@ public class UpdateDataProvider extends AppCompatActivity {
                 Toast.makeText(this, "Bank account number field cannot be empty", Toast.LENGTH_SHORT).show();
             }else if (location.isEmpty()){
                 Toast.makeText(this, "Location field cannot be empty", Toast.LENGTH_SHORT).show();
+            }else if (openTime.equals("Time Open") || openTime.equals("Time Close")){
+                Toast.makeText(this, "Open or close time cannot be empty", Toast.LENGTH_SHORT).show();
+            }else if (priceField == 0){
+                Toast.makeText(this, "Price field cannot be empty", Toast.LENGTH_SHORT).show();
             }else {
                 if (!onImageChange){
                     changeProviderField(oldUrl);
@@ -105,6 +118,38 @@ public class UpdateDataProvider extends AppCompatActivity {
                     changeFieldWithImage();
                 }
             }
+        });
+
+        // pick time open
+        binding.cardPickTimeOpen.setOnClickListener(view -> {
+            TimePickerDialog timePickerDialog;
+            Calendar calendar = Calendar.getInstance();
+            timePickerDialog = new TimePickerDialog(UpdateDataProvider.this, (timePicker, hourDay, minuteOfDay) -> {
+
+                hourOpen = hourDay;
+                minuteOpen = minuteOfDay;
+
+                calendar.set(0,0,0, hourOpen, minuteOpen);
+                binding.timeOpenResult.setText(DateFormat.format("hh:mm aa", calendar));
+            }, 24, 0, true);
+
+            timePickerDialog.show();
+        });
+
+        // pick time close
+        binding.cardPickTimeClose.setOnClickListener(view -> {
+            TimePickerDialog timePickerDialog;
+            Calendar calendar = Calendar.getInstance();
+            timePickerDialog = new TimePickerDialog(UpdateDataProvider.this, (timePicker, hourDay, minuteOfDay) -> {
+
+                hourClose = hourDay;
+                minuteClose = minuteOfDay;
+
+                calendar.set(0,0,0, hourClose, minuteClose);
+                binding.timeCloseResult.setText(DateFormat.format("hh:mm aa", calendar));
+            }, 24, 0, true);
+
+            timePickerDialog.show();
         });
     }
 
@@ -173,6 +218,9 @@ public class UpdateDataProvider extends AppCompatActivity {
                     binding.numberPhoneEdit.setText(modelProviderField.getNumberPhone());
                     binding.bankAccountNumberEdit.setText(modelProviderField.getBankAccountNumber());
                     binding.locationEdit.setText(modelProviderField.getLocation());
+                    binding.timeOpenResult.setText(modelProviderField.getOpenTime());
+                    binding.timeCloseResult.setText(modelProviderField.getCloseTime());
+                    binding.priceField.setText(String.valueOf(modelProviderField.getPriceField()));
                     oldUrl = modelProviderField.getUrlPhotoField();
                     latitude = modelProviderField.getLatitude();
                     longitude = modelProviderField.getLongitude();
@@ -236,7 +284,10 @@ public class UpdateDataProvider extends AppCompatActivity {
                 location,
                 latitude,
                 longitude,
-                0.0
+                0.0,
+                openTime,
+                closeTime,
+                priceField
         );
 
         ReferenceDatabase.referenceProviderField.child(Data.uid).setValue(modelProviderField).addOnSuccessListener(unused -> {

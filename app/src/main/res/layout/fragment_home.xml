@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.Users.FragmentHome">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="@color/white"
+                app:scrimAnimationDuration="250"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:id="@+id/collapsing_toolbar">
+
+                <RelativeLayout
+                    android:id="@+id/layout_product_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="330dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/background_home" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="80dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/selamat_datang"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/poppins_bold"
+                            android:includeFontPadding="false"
+                            android:textSize="32sp"/>
+
+                    </LinearLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="2dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        android:layout_alignParentBottom="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/futsal_4" />
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginStart="12dp"
+                                android:layout_marginEnd="12dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Championship"
+                                    android:textSize="10sp"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/black"
+                                    android:layout_marginTop="16dp"
+                                    android:layout_marginBottom="8dp"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="ATB CUP 2022"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:textColor="@color/black"
+                                    android:includeFontPadding="false"
+                                    android:layout_marginTop="4dp"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Menangkan dan dapatkan hadiah"
+                                    android:textSize="10sp"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/black"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Jalan Gatot Subrtoro Blok M No 90"
+                                    android:textSize="10sp"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:includeFontPadding="false"
+                                    app:drawableStartCompat="@drawable/ic_location_on"
+                                    app:drawableTint="#B3B3B3"
+                                    android:layout_marginTop="48dp"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+<!--                <androidx.appcompat.widget.Toolbar-->
+<!--                    android:id="@+id/toolbar"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:background="@color/transparent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:contentInsetStart="0dp"-->
+<!--                    app:layout_collapseMode="pin"-->
+<!--                    >-->
+
+<!--                </androidx.appcompat.widget.Toolbar>-->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="16dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/booked_field_btn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="48dp"
+                        app:cardBackgroundColor="#A6FFFFFF"
+                        android:layout_marginEnd="12dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_transaction"
+                            android:layout_gravity="center"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/notification_view"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="48dp"
+                        app:cardBackgroundColor="#A6FFFFFF">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_notifications"
+                            android:layout_gravity="center"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:ignore="SpeakableTextPresentCheck"
+            android:translationZ="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp">
+
+                <!--            <androidx.cardview.widget.CardView-->
+                <!--                android:id="@+id/card_booked_field"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="60dp"-->
+                <!--                app:cardCornerRadius="8dp"-->
+                <!--                android:layout_marginTop="95dp"-->
+                <!--                android:layout_marginStart="1dp"-->
+                <!--                android:layout_marginEnd="1dp"-->
+                <!--                android:layout_marginBottom="1dp">-->
+
+                <!--                <RelativeLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content">-->
+
+                <!--                    <View-->
+                <!--                        android:layout_width="6.5dp"-->
+                <!--                        android:layout_height="match_parent"-->
+                <!--                        android:background="@color/primary" />-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_centerInParent="true"-->
+                <!--                        android:layout_marginStart="16dp"-->
+                <!--                        android:layout_marginEnd="16dp"-->
+                <!--                        android:fontFamily="@font/poppins_medium"-->
+                <!--                        android:text="@string/my_booked"-->
+                <!--                        android:textSize="12sp" />-->
+
+                <!--                    <ImageView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:src="@drawable/ic_soccer"-->
+                <!--                        app:tint="@color/primary"-->
+                <!--                        android:layout_centerInParent="true"-->
+                <!--                        android:layout_alignParentEnd="true"-->
+                <!--                        android:layout_marginEnd="16dp"/>-->
+
+                <!--                </RelativeLayout>-->
+
+                <!--            </androidx.cardview.widget.CardView>-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mau_main_dimana"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/all_view_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lihat Semua"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="12sp"
+                        android:textAlignment="textEnd"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    tools:ignore="SpeakableTextPresentCheck">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="220dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            app:cardCornerRadius="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/futsal_1" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="220dp"
+                            android:layout_height="120dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            app:cardCornerRadius="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/futsal_2" />
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lapangan_terpopuler"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_field_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/layout_card_futsal_field"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</FrameLayout>

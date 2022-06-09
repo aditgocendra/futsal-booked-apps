@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.Users.FragmentField">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="@color/primary"
+                app:scrimAnimationDuration="250"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:id="@+id/collapsing_toolbar">
+
+                <RelativeLayout
+                    android:id="@+id/layout_product_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_corner_bottom">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/background_top" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="110dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Lokasi Kamu"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:textSize="10sp"
+                                    android:includeFontPadding="false"
+                                    app:drawableTint="#B3B3B3"
+                                    app:drawableStartCompat="@drawable/ic_location_on"
+                                    tools:ignore="SmallSp" />
+
+                                <TextView
+                                    android:id="@+id/location_user"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="-"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black"
+                                    android:paddingStart="3dp"
+                                    android:includeFontPadding="false"
+                                    android:paddingEnd="3dp"/>
+
+                            </LinearLayout>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/card_get_location"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                app:cardCornerRadius="8dp"
+                                android:layout_weight="0"
+                                android:layout_margin="2dp"
+                                app:cardBackgroundColor="#F1D130">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_my_location"
+                                    android:layout_gravity="center"
+                                    app:tint="@color/white"
+                                    android:elevation="0dp"/>
+
+
+                            </androidx.cardview.widget.CardView>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:background="@color/transparent"
+                    android:layout_height="wrap_content"
+                    app:contentInsetStart="0dp"
+                    app:layout_collapseMode="pin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Lapangan Futsal"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/poppins_bold"
+                            android:textSize="20sp"
+                            android:includeFontPadding="false"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/filter_btn"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_filter"
+                            android:layout_weight="0"
+                            android:contentDescription="@string/image"
+                            android:layout_marginEnd="6dp"/>
+
+                        <ImageView
+                            android:id="@+id/sort_btn"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_sort"
+                            android:layout_weight="0"
+                            android:contentDescription="@string/image" />
+
+                    </LinearLayout>
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:ignore="SpeakableTextPresentCheck"
+            android:translationZ="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/background_full_corner"
+                    android:padding="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_search"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="6dp"/>
+
+                    <EditText
+                        android:id="@+id/search_edt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:backgroundTint="@color/transparent"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="Cari Lapangan"
+                        android:imeActionLabel="Search"
+                        android:imeOptions="actionSearch"
+                        android:includeFontPadding="false"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray_dop"
+                        android:textSize="14sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/layout_card_futsal_field" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</FrameLayout>

@@ -63,4 +63,20 @@
     <string name="filter_status">Filter Status</string>
     <string name="dp_payment_in_full">DP Payment In Full</string>
     <string name="booked_finish">Booked Finish</string>
+    <string name="adhitya">Adhitya</string>
+    <string name="selamat_datang">Selamat Datang,</string>
+    <string name="mau_main_dimana">Mau Main Dimana ?</string>
+    <string name="lapangan_terpopuler">Lapangan Terpopuler</string>
+    <string name="rp_550_000_jam">Rp. 550.000 / Jam</string>
+    <string name="jalan_gatot_subroto_nomor_68_777_2">Jalan Gatot Subroto nomor 68, 777 2</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="price_field">Price Field</string>
+    <string name="pesan_sekarang">Pesan Sekarang</string>
+    <string name="upload_gambar">Upload Gambar</string>
+    <string name="tambah">Tambah</string>
+    <string name="filter_lapangan">Filter Lapangan</string>
+    <string name="sort">Sort</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
 </resources>

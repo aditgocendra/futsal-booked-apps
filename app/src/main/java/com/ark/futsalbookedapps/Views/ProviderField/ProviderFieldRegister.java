@@ -9,9 +9,11 @@ import androidx.core.app.ActivityCompat;
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
+//import com.ark.futsalbookedapps.Views.Users.DetailProviderField;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import android.Manifest;
+import android.app.TimePickerDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,21 +22,20 @@ import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Toast;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.databinding.ActivityProviderFieldRegisterBinding;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -53,7 +54,10 @@ public class ProviderFieldRegister extends AppCompatActivity {
     private double latitude, longitude;
 
     // init attr data
-    private String fieldName, phoneNumber, accNumber, location;
+    private String fieldName, phoneNumber, accNumber, location, openTime, closeTime;
+    private int priceField;
+
+    private int hourOpen, minuteOpen, hourClose, minuteClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,9 @@ public class ProviderFieldRegister extends AppCompatActivity {
             phoneNumber = Objects.requireNonNull(binding.numberPhone.getText()).toString();
             accNumber = Objects.requireNonNull(binding.bankAccountNumber.getText()).toString();
             location = Objects.requireNonNull(binding.locationRegister.getText()).toString();
+            priceField = Integer.parseInt(Objects.requireNonNull(binding.priceField.getText()).toString());
+            openTime = binding.timeOpenResult.getText().toString();
+            closeTime = binding.timeCloseResult.getText().toString();
 
             if (fieldName.isEmpty()){
                 Toast.makeText(this, "Field name cannot be empty", Toast.LENGTH_SHORT).show();
@@ -95,6 +102,10 @@ public class ProviderFieldRegister extends AppCompatActivity {
                 Toast.makeText(this, "Bank account number field cannot be empty", Toast.LENGTH_SHORT).show();
             }else if (location.isEmpty()){
                 Toast.makeText(this, "Location field cannot be empty", Toast.LENGTH_SHORT).show();
+            }else if (openTime.equals("Time Open") || openTime.equals("Time Close")){
+                Toast.makeText(this, "Open or close time cannot be empty", Toast.LENGTH_SHORT).show();
+            }else if (priceField == 0){
+                Toast.makeText(this, "Price field cannot be empty", Toast.LENGTH_SHORT).show();
             }else {
                 if (!onImageChange){
                     Toast.makeText(this, "Please upload the image field", Toast.LENGTH_SHORT).show();
@@ -104,6 +115,38 @@ public class ProviderFieldRegister extends AppCompatActivity {
                     saveImageField();
                 }
             }
+        });
+
+        // pick time open
+        binding.cardPickTimeOpen.setOnClickListener(view -> {
+            TimePickerDialog timePickerDialog;
+            Calendar calendar = Calendar.getInstance();
+            timePickerDialog = new TimePickerDialog(ProviderFieldRegister.this, (timePicker, hourDay, minuteOfDay) -> {
+
+                hourOpen = hourDay;
+                minuteOpen = minuteOfDay;
+
+                calendar.set(0,0,0, hourOpen, minuteOpen);
+                binding.timeOpenResult.setText(DateFormat.format("hh:mm aa", calendar));
+            }, 24, 0, true);
+
+            timePickerDialog.show();
+        });
+
+        // pick time close
+        binding.cardPickTimeClose.setOnClickListener(view -> {
+            TimePickerDialog timePickerDialog;
+            Calendar calendar = Calendar.getInstance();
+            timePickerDialog = new TimePickerDialog(ProviderFieldRegister.this, (timePicker, hourDay, minuteOfDay) -> {
+
+                hourClose = hourDay;
+                minuteClose = minuteOfDay;
+
+                calendar.set(0,0,0, hourClose, minuteClose);
+                binding.timeCloseResult.setText(DateFormat.format("hh:mm aa", calendar));
+            }, 24, 0, true);
+
+            timePickerDialog.show();
         });
     }
 
@@ -188,14 +231,17 @@ public class ProviderFieldRegister extends AppCompatActivity {
 
     private void saveProviderField(String uri) {
         ModelProviderField modelProviderField = new ModelProviderField(
-          fieldName,
+          fieldName.toLowerCase(),
           uri,
           phoneNumber,
           accNumber,
           location,
           latitude,
           longitude,
-                0.0
+                0.0,
+                openTime,
+                closeTime,
+                priceField
         );
 
         ReferenceDatabase.referenceProviderField.child(Data.uid).setValue(modelProviderField).addOnSuccessListener(unused -> {

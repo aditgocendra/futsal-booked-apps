@@ -14,15 +14,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.ark.futsalbookedapps.Adapter.AdapterFieldBooked;
-import com.ark.futsalbookedapps.Adapter.AdapterHome;
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelBooked;
-import com.ark.futsalbookedapps.Models.ModelProviderField;
 import com.ark.futsalbookedapps.R;
 import com.ark.futsalbookedapps.databinding.ActivityFieldBookedBinding;
-import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -67,15 +64,12 @@ public class FieldBooked extends AppCompatActivity {
         adapterFieldBooked = new AdapterFieldBooked(this);
         binding.recyclerFieldBooked.setAdapter(adapterFieldBooked);
 
-        listBooked = new ArrayList<>();
-
         listenerComponent();
         requestDataBooked();
     }
 
     private void listenerComponent() {
         binding.backBtn.setOnClickListener(view -> finish());
-
 
         // listen user scroll recyclerview
         binding.recyclerFieldBooked.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -111,13 +105,17 @@ public class FieldBooked extends AppCompatActivity {
     }
 
     private void requestDataBooked(){
-        ReferenceDatabase.referenceBooked.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                countData = task.getResult().getChildrenCount();
+        ReferenceDatabase.referenceBooked.orderByChild("keyUserBooked").equalTo(Data.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                countData = snapshot.getChildrenCount();
                 isLoadData = true;
                 setDataFieldBooked();
-            }else {
-                Toast.makeText(FieldBooked.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(FieldBooked.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -140,6 +138,7 @@ public class FieldBooked extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 binding.progressCircular.setVisibility(View.VISIBLE);
+                listBooked = new ArrayList<>();
                 for (DataSnapshot ds : snapshot.getChildren()){
                     ModelBooked modelBooked = ds.getValue(ModelBooked.class);
                     if (modelBooked != null){
@@ -161,12 +160,13 @@ public class FieldBooked extends AppCompatActivity {
 
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
+                    adapterFieldBooked.setItem(listBooked);
                     if (listBooked.size() != 0){
-                        adapterFieldBooked.setItem(listBooked);
+                        adapterFieldBooked.notifyDataSetChanged();
                     }else {
                         Toast.makeText(FieldBooked.this, "Booked field provider is empty", Toast.LENGTH_SHORT).show();
                     }
-                    adapterFieldBooked.notifyDataSetChanged();
+
                     isLoadData = false;
                     binding.progressCircular.setVisibility(View.GONE);
                 }, 200);
@@ -193,6 +193,8 @@ public class FieldBooked extends AppCompatActivity {
             cancelled.setEnabled(true);
             dpPay.setEnabled(true);
             bookedFinish.setEnabled(true);
+
+
             filterData(0);
             bottomSheetDialog.dismiss();
         });
@@ -202,6 +204,7 @@ public class FieldBooked extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             dpPay.setEnabled(true);
             bookedFinish.setEnabled(true);
+
             filterData(101);
             bottomSheetDialog.dismiss();
         });
@@ -211,6 +214,7 @@ public class FieldBooked extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             cancelled.setEnabled(true);
             bookedFinish.setEnabled(true);
+
             filterData(202);
             bottomSheetDialog.dismiss();
         });
@@ -220,6 +224,7 @@ public class FieldBooked extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             cancelled.setEnabled(true);
             dpPay.setEnabled(true);
+
             filterData(303);
             bottomSheetDialog.dismiss();
         });
@@ -232,6 +237,7 @@ public class FieldBooked extends AppCompatActivity {
         status = codeStatus;
         key = null;
         listBooked.clear();
+        adapterFieldBooked.notifyDataSetChanged();
         isLoadData = true;
         setDataFieldBooked();
 

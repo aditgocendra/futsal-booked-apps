@@ -40,15 +40,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/provider_field"
+                    android:text="Penyedia Lapangan"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"/>
 
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/field"
+                    android:text="Lama Permainan"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"
@@ -57,7 +58,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Playtime"
+                    android:text="Tanggal Bermain"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"
@@ -66,16 +67,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Date Play"
-                    android:textSize="11sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="3dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Time Play"
+                    android:text="Waktu Bermain"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"
@@ -106,16 +98,6 @@
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"/>
-
-                <TextView
-                    android:id="@+id/field_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textSize="11sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="3dp"/>
 
                 <TextView
                     android:id="@+id/playtime_text"
@@ -151,7 +133,7 @@
                     android:id="@+id/minimum_dp_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="-"
+                    android:text="Rp. 50.000"
                     android:textSize="11sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="8dp"
@@ -198,7 +180,7 @@
                 android:id="@+id/preview_location_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/preview_location"
+                android:text="Lihat Lokasi"
                 android:textAllCaps="false"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="12sp"
@@ -210,7 +192,7 @@
                 android:id="@+id/contact_provider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/contact_provider"
+                android:text="Hubungi Penyedia"
                 android:textAllCaps="false"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="12sp"
@@ -224,7 +206,7 @@
             android:id="@+id/rating_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gift A Review"
+            android:text="Beri Ulasan"
             android:textAllCaps="false"
             android:fontFamily="@font/poppins_medium"
             android:textSize="12sp"

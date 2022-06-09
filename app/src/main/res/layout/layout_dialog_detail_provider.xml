@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/image"
+        app:tint="@color/black"/>
+
+    <TextView
+        android:id="@+id/provider_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futsal Aku Tahu Center"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_semi_bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rating_bar_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="?android:attr/ratingBarStyleSmall"
+            android:numStars="5"
+            android:stepSize="1"
+            android:rating="5"
+            tools:ignore="SpeakableTextPresentCheck"
+            android:progressTint="#FFC107"
+            android:secondaryProgressTint="#A17A04"/>
+
+        <TextView
+            android:id="@+id/rating_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_5_0"
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
+            android:layout_marginStart="6dp"
+            android:textSize="12.5sp"
+            android:textColor="#FFC107"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/open_time_provider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="08.00 - 24.00 WIB"
+        android:fontFamily="@font/poppins_regular"
+        android:includeFontPadding="false"
+        android:textSize="12.5sp"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/black"
+        app:drawableStartCompat="@drawable/ic_pick_time"
+        app:drawableTint="@color/black"
+        android:drawablePadding="4dp"/>
+    
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_image"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:paddingStart="80dp"
+        android:paddingEnd="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lokasi"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_semi_bold"/>
+
+    <TextView
+        android:id="@+id/location_provider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jalan Mana tah mana tah mana"
+        android:textSize="12.5sp"
+        android:fontFamily="@font/poppins_medium"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fasilitas"
+        android:layout_marginTop="16dp"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_semi_bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Bola"
+            android:textSize="12sp"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:background="@drawable/background_full_corner"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Toilet"
+            android:layout_marginEnd="8dp"
+            android:textSize="12sp"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:background="@drawable/background_full_corner"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Wifi"
+            android:layout_marginEnd="8dp"
+            android:textSize="12sp"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:background="@drawable/background_full_corner"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kebijakan Venue"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_semi_bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tempat ini dilindungi dengan segala upaya pemerintahan yang mendasar dan melampauinya saya pun gak tau nulis apa ini"
+        android:textSize="12.5sp"
+        android:fontFamily="@font/poppins_medium"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_whatsapp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            app:cardCornerRadius="6dp"
+            android:layout_margin="4dp">
+
+            <ImageView
+                android:id="@+id/whatsapp_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_whatsapp"
+                android:layout_gravity="center"
+                app:tint="@color/primary_light"
+                android:contentDescription="@string/image" />
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/order_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pesan_sekarang"
+            android:textSize="14sp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/primary"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

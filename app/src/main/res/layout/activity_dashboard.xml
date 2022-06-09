@@ -89,54 +89,18 @@
         app:cardCornerRadius="6dp"
         app:cardElevation="2dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/rating_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="12dp"
-            android:layout_gravity="center">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Field Total : 10"
-                    android:fontFamily="@font/poppins_medium"
-                    android:includeFontPadding="false"
-                    android:textSize="12sp"
-                    android:textAlignment="center"
-                    android:layout_gravity="center_horizontal"
-                    app:drawableStartCompat="@drawable/ic_field_total"
-                    android:drawablePadding="4dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rating : 5.0"
-                    android:fontFamily="@font/poppins_medium"
-                    android:includeFontPadding="false"
-                    android:textSize="12sp"
-                    android:textAlignment="center"
-                    android:layout_gravity="center_horizontal"
-                    app:drawableStartCompat="@drawable/ic_star_rate"
-                    android:drawablePadding="4dp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:text="Rating : 5.0"
+            android:fontFamily="@font/poppins_medium"
+            android:includeFontPadding="false"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            app:drawableStartCompat="@drawable/ic_star_rate"
+            android:drawablePadding="4dp"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -161,7 +125,7 @@
                 android:layout_marginBottom="4dp">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/card_add_field"
+                    android:id="@+id/card_add_gallery"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginStart="4dp"
@@ -187,13 +151,13 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:fontFamily="@font/poppins_medium"
-                            android:text="Add Field"
+                            android:text="Tambah Gambar"
                             android:textSize="12sp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_add_circle"
+                            android:src="@drawable/ic_image_default"
                             app:tint="@color/primary"
                             android:layout_centerInParent="true"
                             android:layout_alignParentEnd="true"
@@ -230,7 +194,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:fontFamily="@font/poppins_medium"
-                            android:text="Booked"
+                            android:text="Booking"
                             android:textSize="12sp" />
 
                         <ImageView
@@ -274,7 +238,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Review User"
+                        android:text="Review Pelanggan"
                         android:textSize="12sp" />
 
                     <ImageView
@@ -330,10 +294,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="My Field"
+                android:text="Gallery Gambar"
                 android:fontFamily="@font/poppins_semi_bold"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:textAlignment="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"/>

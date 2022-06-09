@@ -2,46 +2,38 @@ package com.ark.futsalbookedapps.Views.ProviderField;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
-import com.ark.futsalbookedapps.Models.ModelField;
-import com.ark.futsalbookedapps.databinding.ActivityFieldAddBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.ark.futsalbookedapps.Models.ModelGallery;
+import com.ark.futsalbookedapps.databinding.ActivityGalleryImageAddBinding;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
-public class FieldAdd extends AppCompatActivity {
+public class GalleryImageAdd extends AppCompatActivity {
 
-    private ActivityFieldAddBinding binding;
+    private ActivityGalleryImageAddBinding binding;
 
     // init image launcher
     private ActivityResultLauncher<String> imagePick;
     private boolean onImageChange;
 
-    private String typeField, minDP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityFieldAddBinding.inflate(getLayoutInflater());
+        binding = ActivityGalleryImageAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Functions.checkWindowSetFlag(this);
 
@@ -53,22 +45,13 @@ public class FieldAdd extends AppCompatActivity {
         binding.backBtn.setOnClickListener(view -> finish());
         binding.uploadImage.setOnClickListener(view -> imagePick.launch("image/*"));
 
-        binding.addFieldBtn.setOnClickListener(view -> {
-            typeField = Objects.requireNonNull(binding.typeFieldAdd.getText()).toString();
-            minDP = Objects.requireNonNull(binding.minDownPay.getText()).toString();
-
-            if (typeField.isEmpty()){
-                Toast.makeText(this, "Type field cannot be empty", Toast.LENGTH_SHORT).show();
-            }else if (minDP.isEmpty()){
-                Toast.makeText(this, "Minimum down payment cannot be empty", Toast.LENGTH_SHORT).show();
+        binding.addGalleryBtn.setOnClickListener(view -> {
+            if (!onImageChange){
+                Toast.makeText(this, "Image field required", Toast.LENGTH_SHORT).show();
             }else {
-                if (!onImageChange){
-                    Toast.makeText(this, "Image field required", Toast.LENGTH_SHORT).show();
-                }else {
-                    binding.addFieldBtn.setEnabled(false);
-                    binding.progressCircular.setVisibility(View.VISIBLE);
-                    saveImageField();
-                }
+                binding.addGalleryBtn.setEnabled(false);
+                binding.progressCircular.setVisibility(View.VISIBLE);
+                saveImageGallery();
             }
         });
     }
@@ -83,7 +66,7 @@ public class FieldAdd extends AppCompatActivity {
         );
     }
 
-    private void saveImageField() {
+    private void saveImageGallery() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());
         Date now = new Date();
         String fileName = dateFormat.format(now);
@@ -97,34 +80,28 @@ public class FieldAdd extends AppCompatActivity {
 
         UploadTask uploadTask = storageRef.putBytes(data);
 
-        uploadTask.addOnFailureListener(e -> Toast.makeText(FieldAdd.this, e.getMessage(), Toast.LENGTH_SHORT).show())
+        uploadTask.addOnFailureListener(e -> Toast.makeText(GalleryImageAdd.this, e.getMessage(), Toast.LENGTH_SHORT).show())
                 .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl()
-                        .addOnSuccessListener(uri -> saveField(String.valueOf(uri)))
+                        .addOnSuccessListener(uri -> saveImageGallery(String.valueOf(uri)))
                         .addOnFailureListener(e -> {
                             binding.progressCircular.setVisibility(View.GONE);
-                            binding.addFieldBtn.setEnabled(true);
-                            Toast.makeText(FieldAdd.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            binding.addGalleryBtn.setEnabled(true);
+                            Toast.makeText(GalleryImageAdd.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }));
     }
 
-    private void saveField(String uri){
-        ModelField modelField = new ModelField(
-                typeField,
-                uri,
-                minDP
-        );
+    private void saveImageGallery(String uri){
+        ModelGallery modelGallery = new ModelGallery(uri);
 
-        ReferenceDatabase.referenceField.child(Data.uid).push().setValue(modelField).addOnSuccessListener(unused -> {
-            Toast.makeText(FieldAdd.this, "Success add new field", Toast.LENGTH_SHORT).show();
-            binding.addFieldBtn.setEnabled(true);
+        ReferenceDatabase.referenceGallery.child(Data.uid).push().setValue(modelGallery).addOnSuccessListener(unused -> {
+            Toast.makeText(GalleryImageAdd.this, "Success add new image gallery", Toast.LENGTH_SHORT).show();
+            binding.addGalleryBtn.setEnabled(true);
             binding.progressCircular.setVisibility(View.GONE);
             finish();
         }).addOnFailureListener(e -> {
-            binding.addFieldBtn.setEnabled(true);
+            binding.addGalleryBtn.setEnabled(true);
             binding.progressCircular.setVisibility(View.GONE);
-            Toast.makeText(FieldAdd.this, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(GalleryImageAdd.this, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show();
         });
-
-
     }
 }

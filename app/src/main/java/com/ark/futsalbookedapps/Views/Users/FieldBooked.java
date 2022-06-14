@@ -1,16 +1,25 @@
 package com.ark.futsalbookedapps.Views.Users;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ark.futsalbookedapps.Adapter.AdapterFieldBooked;
@@ -20,14 +29,24 @@ import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelBooked;
 import com.ark.futsalbookedapps.R;
 import com.ark.futsalbookedapps.databinding.ActivityFieldBookedBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class FieldBooked extends AppCompatActivity {
@@ -49,6 +68,10 @@ public class FieldBooked extends AppCompatActivity {
     // filter data
     int status = 500;
 
+    // init image launcher
+    private ActivityResultLauncher<String> imagePick;
+    private String keyBookedFieldSelect;
+    private Button btnProofSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +88,10 @@ public class FieldBooked extends AppCompatActivity {
         binding.recyclerFieldBooked.setAdapter(adapterFieldBooked);
 
         listenerComponent();
+        pickImageSetup();
         requestDataBooked();
     }
+
 
     private void listenerComponent() {
         binding.backBtn.setOnClickListener(view -> finish());
@@ -102,6 +127,59 @@ public class FieldBooked extends AppCompatActivity {
             bottomSheetDialog.show();
         });
 
+        adapterFieldBooked.RecyclerBooked((proofBtn, pos) -> {
+            btnProofSelected = proofBtn;
+            keyBookedFieldSelect = listBooked.get(pos).getKeyBooked();
+            imagePick.launch("image/*");
+
+        });
+
+    }
+
+    private void pickImageSetup() {
+        imagePick = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                this::updateProof
+        );
+    }
+
+    private void updateProof(Uri uriProof){
+        if (uriProof == null){
+            return;
+        }
+        binding.progressCircular.setVisibility(View.VISIBLE);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());
+        Date now = new Date();
+        String fileName = dateFormat.format(now);
+
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference("payment_proof/"+fileName);
+
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriProof);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream baOs = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baOs);
+        byte[] data = baOs.toByteArray();
+
+        UploadTask uploadTask = storageRef.putBytes(data);
+
+        uploadTask.addOnFailureListener(e -> {
+                    Toast.makeText(FieldBooked.this, "Error"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    binding.progressCircular.setVisibility(View.GONE);
+                })
+                .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    ReferenceDatabase.referenceBooked.child(keyBookedFieldSelect).child("urlProof").setValue(String.valueOf(uri));
+                    Toast.makeText(FieldBooked.this, "Sukses upload bukti pembayaran", Toast.LENGTH_SHORT).show();
+                    binding.progressCircular.setVisibility(View.GONE);
+                    btnProofSelected.setVisibility(View.GONE);
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(FieldBooked.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    binding.progressCircular.setVisibility(View.GONE);
+                }));
     }
 
     private void requestDataBooked(){
@@ -193,7 +271,6 @@ public class FieldBooked extends AppCompatActivity {
             cancelled.setEnabled(true);
             dpPay.setEnabled(true);
             bookedFinish.setEnabled(true);
-
 
             filterData(0);
             bottomSheetDialog.dismiss();

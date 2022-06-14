@@ -23,6 +23,8 @@ import com.ark.futsalbookedapps.R;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -87,8 +89,39 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
         bottomSheetDialogAccount = new BottomSheetDialog(context);
         setDataUserBooked(modelBooked.getKeyUserBooked(), holder);
 
-
         holder.contactUserBtn.setOnClickListener(view -> bottomSheetDialogAccount.show());
+
+        holder.lookProofBtn.setOnClickListener(view -> {
+            if (modelBooked.getUrlProof().equals("-")){
+                Toast.makeText(context, "Pembooking belum mengupload bukti pembayaran", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // set view proof
+            Dialog dialog;
+            dialog = new Dialog(context);
+            dialog.setContentView(R.layout.layout_view_proof);
+            dialog.getWindow().setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_center_dialog));
+
+            dialog.getWindow().setLayout(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            dialog.setCancelable(false); //Optional
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
+
+            // button customize
+            Button close = dialog.findViewById(R.id.btn_okay);
+            close.setText("Close");
+
+            ImageView imageView = dialog.findViewById(R.id.imageView);
+            Picasso.get().load(modelBooked.getUrlProof()).into(imageView);
+
+            // text customize
+            close.setOnClickListener(v -> dialog.dismiss());
+
+            dialog.show();
+        });
 
         holder.cancelBtn.setOnClickListener(view -> {
             Dialog dialog = new Dialog(context);
@@ -127,6 +160,11 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
         });
 
         holder.confirmPaidBtn.setOnClickListener(view -> {
+            if (modelBooked.getUrlProof().equals("-")){
+                Toast.makeText(context, "Pembooking belum mengupload bukti pembayaran", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.layout_confirmation_option);
             dialog.getWindow().setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_center_dialog));
@@ -171,7 +209,7 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
     public static class ManageBookedFieldVH extends RecyclerView.ViewHolder {
         TextView userFieldText, playDateText, playtimeText, statusText;
         ImageView imageField;
-        Button contactUserBtn, confirmPaidBtn, cancelBtn;
+        Button contactUserBtn, confirmPaidBtn, cancelBtn, lookProofBtn;
 
         public ManageBookedFieldVH(@NonNull View itemView) {
             super(itemView);
@@ -185,6 +223,7 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
             contactUserBtn = itemView.findViewById(R.id.contact_user_btn);
             confirmPaidBtn = itemView.findViewById(R.id.confirmation_paid);
             cancelBtn = itemView.findViewById(R.id.cancel_booked);
+            lookProofBtn = itemView.findViewById(R.id.look_proof_btn);
         }
     }
 

@@ -443,13 +443,13 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
         btnNext.setOnClickListener(view -> {
             String dateBooked = textDate.getText().toString();
 
-
             ModelBooked modelBooked = new ModelBooked(
                     Data.uid,
                     modelProviderField.getKeyUserProviderField(),
                     playtime,
                     dateBooked,
                     timeSelectedPlay,
+                    "-",
                     0
             );
 

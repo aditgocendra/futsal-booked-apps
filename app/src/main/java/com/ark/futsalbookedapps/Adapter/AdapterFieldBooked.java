@@ -40,8 +40,8 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     private final Context context;
     private List<ModelBooked> listBooked = new ArrayList<>();
     private Dialog dialogBankAccount;
-
     private BottomSheetDialog bottomSheetDialog;
+    private RecyclerBooked listenerRecycler;
 
     // notification
     private String title = "Futsaloka";
@@ -55,17 +55,29 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
         this.listBooked = listBooked;
     }
 
+    public interface RecyclerBooked{
+        void recyclerBooked(Button proofBtn, int pos);
+    }
+
+    public void RecyclerBooked(RecyclerBooked listenerRecycler){
+        this.listenerRecycler = listenerRecycler;
+    }
+
     @NonNull
     @Override
     public AdapterFieldBooked.FieldBookedVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.layout_card_booked, parent, false);
-        return new FieldBookedVH(view);
+        return new FieldBookedVH(view, listenerRecycler);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AdapterFieldBooked.FieldBookedVH holder, int position) {
         ModelBooked modelBooked = listBooked.get(position);
+
+        if (modelBooked.getUrlProof().equals("-")){
+            holder.proofBtn.setVisibility(View.VISIBLE);
+        }
 
         // set data provider field
         setProviderField(modelBooked.getKeyProviderField(), holder);
@@ -114,8 +126,8 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     public static class FieldBookedVH extends RecyclerView.ViewHolder {
         TextView providerFieldText, playtimeText, minimumDpText, bankAccNumber, statusText, datePlayText, timePlayText;
         ImageView imageField;
-        Button previewLocBtn, contactProvider, ratingBtn;
-        public FieldBookedVH(@NonNull View itemView) {
+        Button previewLocBtn, contactProvider, ratingBtn, proofBtn;
+        public FieldBookedVH(@NonNull View itemView, RecyclerBooked listenerRecycler) {
             super(itemView);
 
             providerFieldText = itemView.findViewById(R.id.provider_field_text);
@@ -129,6 +141,14 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
             contactProvider = itemView.findViewById(R.id.contact_provider);
             previewLocBtn = itemView.findViewById(R.id.preview_location_btn);
             ratingBtn = itemView.findViewById(R.id.rating_btn);
+            proofBtn = itemView.findViewById(R.id.proof_btn);
+
+            proofBtn.setOnClickListener(view -> {
+                if (listenerRecycler != null && getLayoutPosition() != RecyclerView.NO_POSITION){
+                    listenerRecycler.recyclerBooked(proofBtn, getLayoutPosition());
+
+                }
+            });
         }
     }
 

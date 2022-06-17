@@ -191,7 +191,9 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
 
 
                 // text customize
+                TextView bankText = dialogBankAccount.findViewById(R.id.textView);
                 TextView messageText = dialogBankAccount.findViewById(R.id.textView2);
+                bankText.setText("Bank Account : "+modelProviderField.getNameBank());
                 messageText.setText(modelProviderField.getBankAccountNumber());
                 close.setOnClickListener(v -> dialogBankAccount.dismiss());
 

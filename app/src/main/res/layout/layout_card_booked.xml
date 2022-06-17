@@ -180,13 +180,13 @@
                 android:id="@+id/preview_location_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/primary"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Lihat Lokasi"
                 android:textAllCaps="false"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="12sp"
-                android:backgroundTint="@color/primary"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp"/>
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/contact_provider"
@@ -201,6 +201,17 @@
                 android:layout_marginStart="6dp"/>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/proof_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Bukti"
+            android:textAllCaps="false"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:backgroundTint="@color/primary"/>
 
         <Button
             android:id="@+id/rating_btn"

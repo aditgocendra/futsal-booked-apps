@@ -54,7 +54,7 @@ public class UpdateDataProvider extends AppCompatActivity {
     private double latitude, longitude;
 
     // init attr data
-    private String fieldName, phoneNumber, accNumber, location, oldUrl, openTime, closeTime;
+    private String fieldName, phoneNumber,bankName, accNumber, location, oldUrl, openTime, closeTime;
     private int priceField;
 
     private int hourOpen, minuteOpen, hourClose, minuteClose;
@@ -91,6 +91,7 @@ public class UpdateDataProvider extends AppCompatActivity {
         binding.editBtn.setOnClickListener(view -> {
             fieldName = Objects.requireNonNull(binding.nameFieldEdit.getText()).toString();
             phoneNumber = Objects.requireNonNull(binding.numberPhoneEdit.getText()).toString();
+            bankName = Objects.requireNonNull(binding.bankName.getText()).toString();
             accNumber = Objects.requireNonNull(binding.bankAccountNumberEdit.getText()).toString();
             location = Objects.requireNonNull(binding.locationEdit.getText()).toString();
             priceField = Integer.parseInt(Objects.requireNonNull(binding.priceField.getText()).toString());
@@ -109,7 +110,10 @@ public class UpdateDataProvider extends AppCompatActivity {
                 Toast.makeText(this, "Open or close time cannot be empty", Toast.LENGTH_SHORT).show();
             }else if (priceField == 0){
                 Toast.makeText(this, "Price field cannot be empty", Toast.LENGTH_SHORT).show();
-            }else {
+            }else if (bankName.isEmpty()){
+                Toast.makeText(this, "Bank name field cannot be empty", Toast.LENGTH_SHORT).show();
+            }
+            else {
                 if (!onImageChange){
                     changeProviderField(oldUrl);
                 }else {
@@ -221,6 +225,7 @@ public class UpdateDataProvider extends AppCompatActivity {
                     binding.timeOpenResult.setText(modelProviderField.getOpenTime());
                     binding.timeCloseResult.setText(modelProviderField.getCloseTime());
                     binding.priceField.setText(String.valueOf(modelProviderField.getPriceField()));
+                    binding.bankName.setText(modelProviderField.getNameBank());
                     oldUrl = modelProviderField.getUrlPhotoField();
                     latitude = modelProviderField.getLatitude();
                     longitude = modelProviderField.getLongitude();
@@ -280,6 +285,7 @@ public class UpdateDataProvider extends AppCompatActivity {
                 fieldName,
                 uri,
                 phoneNumber,
+                bankName,
                 accNumber,
                 location,
                 latitude,

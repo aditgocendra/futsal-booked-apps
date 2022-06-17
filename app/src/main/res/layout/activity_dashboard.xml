@@ -255,6 +255,48 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/facility_card"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:cardCornerRadius="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_width="6.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Fasilitas"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_facility"
+                        app:tint="@color/primary" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/card_provider"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

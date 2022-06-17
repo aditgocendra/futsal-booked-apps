@@ -1,12 +1,11 @@
 package com.ark.futsalbookedapps.Views.ProviderField;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
-
 import com.ark.futsalbookedapps.Adapter.AdapterDashboard;
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
@@ -19,7 +18,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -64,6 +62,7 @@ public class Dashboard extends AppCompatActivity {
         binding.cardReviewUser.setOnClickListener(view -> Functions.updateUI(this, ReviewField.class));
         binding.cardProvider.setOnClickListener(view -> Functions.updateUI(this, UpdateDataProvider.class));
         binding.cardBooked.setOnClickListener(view -> Functions.updateUI(this, ManageBookedField.class));
+        binding.facilityCard.setOnClickListener(view -> Functions.updateUI(this, Facility.class));
     }
 
     private void setDataProviderField() {
@@ -71,7 +70,7 @@ public class Dashboard extends AppCompatActivity {
             if (task.isSuccessful()){
                 ModelProviderField modelProviderField = task.getResult().getValue(ModelProviderField.class);
                 if (modelProviderField != null){
-                    binding.fieldNameText.setText(modelProviderField.getName());
+                    binding.fieldNameText.setText(Functions.capitalizeWord(modelProviderField.getName()));
                     binding.ratingText.setText("Rating : "+modelProviderField.getRating());
 
                     Picasso.get().load(modelProviderField.getUrlPhotoField()).into(binding.imageField);

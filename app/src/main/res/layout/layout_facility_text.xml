@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:id="@+id/text_facility"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="01:00 PM"
+    android:background="@drawable/background_full_corner"
+    android:textColor="@color/primary"
+    android:textSize="12sp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:layout_margin="6dp"
+    android:layout_centerInParent="true"
+    android:fontFamily="@font/poppins_semi_bold"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -252,6 +252,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Nama Bank"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_gravity="center_horizontal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bank_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:maxLength="10"
+                    android:inputType="text"
+                    android:textSize="12sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Nomor Rekening Bank"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"

@@ -4,6 +4,7 @@ public class ModelProviderField {
     private String name;
     private String urlPhotoField;
     private String numberPhone;
+    private String nameBank;
     private String bankAccountNumber;
     private String location;
     private double latitude;
@@ -17,10 +18,11 @@ public class ModelProviderField {
     public ModelProviderField() {
     }
 
-    public ModelProviderField(String name, String urlPhotoField, String numberPhone, String bankAccountNumber, String location, double latitude, double longitude, double rating, String openTime, String closeTime, int priceField) {
+    public ModelProviderField(String name, String urlPhotoField, String numberPhone, String nameBank, String bankAccountNumber, String location, double latitude, double longitude, double rating, String openTime, String closeTime, int priceField) {
         this.name = name;
         this.urlPhotoField = urlPhotoField;
         this.numberPhone = numberPhone;
+        this.nameBank = nameBank;
         this.bankAccountNumber = bankAccountNumber;
         this.location = location;
         this.latitude = latitude;
@@ -53,6 +55,14 @@ public class ModelProviderField {
 
     public void setNumberPhone(String numberPhone) {
         this.numberPhone = numberPhone;
+    }
+
+    public String getNameBank() {
+        return nameBank;
+    }
+
+    public void setNameBank(String nameBank) {
+        this.nameBank = nameBank;
     }
 
     public String getBankAccountNumber() {

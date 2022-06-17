@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/card_facility_field"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="6.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/primary" />
+
+        <TextView
+            android:id="@+id/facility_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Fasilitas"
+            android:textSize="12.5sp" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

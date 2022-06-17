@@ -6,18 +6,20 @@ public class ModelBooked {
     private String playtime;
     private String dateBooked;
     private String timeBooked;
+    private String urlProof;
     private int status;
     private String keyBooked;
 
     public ModelBooked() {
     }
 
-    public ModelBooked(String keyUserBooked, String keyProviderField, String playtime, String dateBooked, String timeBooked, int status) {
+    public ModelBooked(String keyUserBooked, String keyProviderField, String playtime, String dateBooked, String timeBooked, String urlProof, int status) {
         this.keyUserBooked = keyUserBooked;
         this.keyProviderField = keyProviderField;
         this.playtime = playtime;
         this.dateBooked = dateBooked;
         this.timeBooked = timeBooked;
+        this.urlProof = urlProof;
         this.status = status;
     }
 
@@ -59,6 +61,14 @@ public class ModelBooked {
 
     public void setTimeBooked(String timeBooked) {
         this.timeBooked = timeBooked;
+    }
+
+    public String getUrlProof() {
+        return urlProof;
+    }
+
+    public void setUrlProof(String urlProof) {
+        this.urlProof = urlProof;
     }
 
     public int getStatus() {

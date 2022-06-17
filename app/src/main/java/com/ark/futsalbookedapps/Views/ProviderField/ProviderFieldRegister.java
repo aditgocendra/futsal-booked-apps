@@ -54,7 +54,7 @@ public class ProviderFieldRegister extends AppCompatActivity {
     private double latitude, longitude;
 
     // init attr data
-    private String fieldName, phoneNumber, accNumber, location, openTime, closeTime;
+    private String fieldName, phoneNumber, bankName, accNumber, location, openTime, closeTime;
     private int priceField;
 
     private int hourOpen, minuteOpen, hourClose, minuteClose;
@@ -88,6 +88,7 @@ public class ProviderFieldRegister extends AppCompatActivity {
         binding.saveRegisterBtn.setOnClickListener(view -> {
             fieldName = Objects.requireNonNull(binding.nameFieldAdd.getText()).toString();
             phoneNumber = Objects.requireNonNull(binding.numberPhone.getText()).toString();
+            bankName = Objects.requireNonNull(binding.bankName.getText()).toString();
             accNumber = Objects.requireNonNull(binding.bankAccountNumber.getText()).toString();
             location = Objects.requireNonNull(binding.locationRegister.getText()).toString();
             priceField = Integer.parseInt(Objects.requireNonNull(binding.priceField.getText()).toString());
@@ -106,6 +107,8 @@ public class ProviderFieldRegister extends AppCompatActivity {
                 Toast.makeText(this, "Open or close time cannot be empty", Toast.LENGTH_SHORT).show();
             }else if (priceField == 0){
                 Toast.makeText(this, "Price field cannot be empty", Toast.LENGTH_SHORT).show();
+            }else if (bankName.isEmpty()){
+                Toast.makeText(this, "Bank name field cannot be empty", Toast.LENGTH_SHORT).show();
             }else {
                 if (!onImageChange){
                     Toast.makeText(this, "Please upload the image field", Toast.LENGTH_SHORT).show();
@@ -234,6 +237,7 @@ public class ProviderFieldRegister extends AppCompatActivity {
           fieldName.toLowerCase(),
           uri,
           phoneNumber,
+          bankName,
           accNumber,
           location,
           latitude,

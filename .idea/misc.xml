@@ -25,6 +25,7 @@
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_authentication.xml" value="0.2" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_dashboard.xml" value="0.22" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_detail_provider_field.xml" value="0.22" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_facility.xml" value="0.24070115433946132" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_field_add.xml" value="0.25" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_field_booked.xml" value="0.33" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_forgot_password.xml" value="0.2291577597263788" />
@@ -44,6 +45,7 @@
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_booked_field.xml" value="0.23984608807182556" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_booked.xml" value="0.5" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_facility.xml" value="0.33" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_field.xml" value="0.33" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_futsal_field.xml" value="0.25" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_grid_field.xml" value="0.25" />

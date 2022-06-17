@@ -29,6 +29,7 @@
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_field_add.xml" value="0.25" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_field_booked.xml" value="0.33" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_forgot_password.xml" value="0.2291577597263788" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_gallery_image_add.xml" value="0.24070115433946132" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_main.xml" value="0.2791666666666667" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/activity_manage_booked_field.xml" value="0.25" />
@@ -52,6 +53,7 @@
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_notification.xml" value="0.23984608807182556" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_card_review_provider.xml" value="0.25" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_confirmation_option.xml" value="0.23984608807182556" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_dialog_add_faciity.xml" value="0.24070115433946132" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_dialog_booked_field.xml" value="0.2376530181511186" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_dialog_contact_user.xml" value="0.22702009405728943" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_dialog_detail_provider.xml" value="0.24070115433946132" />
@@ -59,6 +61,7 @@
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_dialog_order.xml" value="0.311495673671199" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_dialog_review_field.xml" value="0.24070115433946132" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_dialog_set_status.xml" value="0.18725951261222745" />
+        <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_facility_text.xml" value="0.23984608807182556" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_filter_booked.xml" value="0.2921875" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_filter_field.xml" value="0.24070115433946132" />
         <entry key="..\:/Users/gocen/Documents/AndroidPoject/FutsalBookedApps/app/src/main/res/layout/layout_generate_pdf.xml" value="0.24070115433946132" />

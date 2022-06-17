@@ -106,48 +106,20 @@
         android:textColor="@color/black"
         android:fontFamily="@font/poppins_semi_bold"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/null_facility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- Tidak ada fasilitas"
+        android:textSize="12sp"
+        android:fontFamily="@font/poppins_medium"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_facility"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Bola"
-            android:textSize="12sp"
-            android:textColor="@color/primary"
-            android:fontFamily="@font/poppins_semi_bold"
-            android:background="@drawable/background_full_corner"
-            android:layout_marginEnd="8dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Toilet"
-            android:layout_marginEnd="8dp"
-            android:textSize="12sp"
-            android:textColor="@color/primary"
-            android:fontFamily="@font/poppins_semi_bold"
-            android:background="@drawable/background_full_corner"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Wifi"
-            android:layout_marginEnd="8dp"
-            android:textSize="12sp"
-            android:textColor="@color/primary"
-            android:fontFamily="@font/poppins_semi_bold"
-            android:background="@drawable/background_full_corner"/>
-
-
-    </LinearLayout>
+        android:orientation="horizontal"/>
 
     <TextView
         android:layout_width="wrap_content"

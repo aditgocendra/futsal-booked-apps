@@ -12,4 +12,5 @@ public class ReferenceDatabase {
     public static DatabaseReference referenceReview = referenceRoot.child("review_provider");
     public static DatabaseReference referenceTokenNotification = referenceRoot.child("token_notification");
     public static DatabaseReference referenceNotification = referenceRoot.child("notification_data");
+    public static DatabaseReference referenceFacility = referenceRoot.child("facility_data");
 }

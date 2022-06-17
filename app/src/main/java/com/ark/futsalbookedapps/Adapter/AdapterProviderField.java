@@ -34,6 +34,7 @@ import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelBooked;
+import com.ark.futsalbookedapps.Models.ModelFacility;
 import com.ark.futsalbookedapps.Models.ModelGallery;
 import com.ark.futsalbookedapps.Models.ModelNotification;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
@@ -165,10 +166,47 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
         RatingBar ratingBar = viewBottomDialog.findViewById(R.id.rating_bar_field);
         ratingBar.setRating((float) modelProviderField.getRating());
 
-        textProviderField.setText(modelProviderField.getName());
+        textProviderField.setText(Functions.capitalizeWord(modelProviderField.getName()));
         textLocationProvider.setText(modelProviderField.getLocation());
         textRating.setText(String.valueOf(modelProviderField.getRating()));
         textTimeOpen.setText(modelProviderField.getOpenTime() + "-" + modelProviderField.getCloseTime() + " WIB");
+
+        RecyclerView recyclerFacility = viewBottomDialog.findViewById(R.id.recycler_facility);
+        TextView textNullFacility = viewBottomDialog.findViewById(R.id.null_facility);
+
+        RecyclerView.LayoutManager layoutManagerProduct = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        recyclerFacility.setHasFixedSize(true);
+        recyclerFacility.setLayoutManager(layoutManagerProduct);
+
+        List<ModelFacility> facilityList = new ArrayList<>();
+        ReferenceDatabase.referenceFacility.child(modelProviderField.getKeyUserProviderField()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()){
+                   ModelFacility modelFacility = ds.getValue(ModelFacility.class);
+                   if (modelFacility != null){
+                        facilityList.add(modelFacility);
+                   }
+                }
+
+                Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    if (facilityList.isEmpty()){
+                        textNullFacility.setVisibility(View.VISIBLE);
+                    }else {
+                        AdapterFacilityData adapterFacilityData = new AdapterFacilityData(context, facilityList);
+                        recyclerFacility.setAdapter(adapterFacilityData);
+                    }
+                },100);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Error Facility : "+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         List<ModelGallery> listGallery = new ArrayList<>();
         ReferenceDatabase.referenceGallery.child(modelProviderField.getKeyUserProviderField()).addListenerForSingleValueEvent(new ValueEventListener() {

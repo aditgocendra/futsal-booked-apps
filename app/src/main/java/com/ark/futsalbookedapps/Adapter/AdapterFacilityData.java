@@ -31,7 +31,7 @@ public class AdapterFacilityData extends RecyclerView.Adapter<AdapterFacilityDat
 
     @Override
     public void onBindViewHolder(@NonNull FacilityDataVH holder, int position) {
-        holder.textFacility.setText(listFacility.get(0).getNameFacility());
+        holder.textFacility.setText(listFacility.get(position).getNameFacility());
     }
 
     @Override

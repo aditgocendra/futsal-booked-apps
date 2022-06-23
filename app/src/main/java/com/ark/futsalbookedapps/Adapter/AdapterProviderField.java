@@ -185,7 +185,9 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
                 for (DataSnapshot ds : snapshot.getChildren()){
                    ModelFacility modelFacility = ds.getValue(ModelFacility.class);
                    if (modelFacility != null){
-                        facilityList.add(modelFacility);
+                       modelFacility.setKeyFacility(ds.getKey());
+                       facilityList.add(modelFacility);
+
                    }
                 }
 

@@ -344,10 +344,13 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
         recyclerTimePicker.setLayoutManager(gridLayoutManager);
         recyclerTimePicker.setHasFixedSize(true);
 
-        adapterTimePick = new AdapterTimePick(context, Arrays.asList(Data.time24hours));
+        adapterTimePick = new AdapterTimePick(context, Arrays.asList(Data.time24hours), modelProviderField.getOpenTime(), modelProviderField.getCloseTime());
         recyclerTimePicker.setAdapter(adapterTimePick);
 
         adapterTimePick.RecyclerTimePick((textSelectionNew, pos) -> {
+            if (!textSelectionNew.isEnabled()){
+                return;
+            }
             if (lastSelectTimePos != pos){
                 View itemView = Objects.requireNonNull(recyclerTimePicker.findViewHolderForLayoutPosition(lastSelectTimePos)).itemView;
                 TextView textTimeSelectionLast = itemView.findViewById(R.id.text_time);

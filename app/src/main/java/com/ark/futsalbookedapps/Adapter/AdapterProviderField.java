@@ -162,6 +162,9 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
         TextView textLocationProvider = viewBottomDialog.findViewById(R.id.location_provider);
         TextView textRating = viewBottomDialog.findViewById(R.id.rating_text);
         TextView textTimeOpen = viewBottomDialog.findViewById(R.id.open_time_provider);
+        TextView textDescription = viewBottomDialog.findViewById(R.id.description_provider);
+
+        textDescription.setText(modelProviderField.getDescription());
 
         RatingBar ratingBar = viewBottomDialog.findViewById(R.id.rating_bar_field);
         ratingBar.setRating((float) modelProviderField.getRating());

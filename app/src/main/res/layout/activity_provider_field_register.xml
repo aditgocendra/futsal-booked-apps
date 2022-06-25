@@ -318,6 +318,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Deskripsi"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_gravity="center_horizontal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/description_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:inputType="textMultiLine"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="12sp"
+                    android:maxLength="50"
+                    android:gravity="left|top"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Lokasi Lapangan"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"

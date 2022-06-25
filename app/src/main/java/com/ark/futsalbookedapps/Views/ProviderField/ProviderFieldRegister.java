@@ -5,11 +5,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import com.ark.futsalbookedapps.Globals.Data;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
-//import com.ark.futsalbookedapps.Views.Users.DetailProviderField;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import android.Manifest;
@@ -54,7 +52,7 @@ public class ProviderFieldRegister extends AppCompatActivity {
     private double latitude, longitude;
 
     // init attr data
-    private String fieldName, phoneNumber, bankName, accNumber, location, openTime, closeTime;
+    private String fieldName, phoneNumber, bankName, accNumber, location, openTime, closeTime, description;
     private int priceField;
 
     private int hourOpen, minuteOpen, hourClose, minuteClose;
@@ -94,6 +92,7 @@ public class ProviderFieldRegister extends AppCompatActivity {
             priceField = Integer.parseInt(Objects.requireNonNull(binding.priceField.getText()).toString());
             openTime = binding.timeOpenResult.getText().toString();
             closeTime = binding.timeCloseResult.getText().toString();
+            description = Objects.requireNonNull(binding.descriptionEdt.getText()).toString();
 
             if (fieldName.isEmpty()){
                 Toast.makeText(this, "Field name cannot be empty", Toast.LENGTH_SHORT).show();
@@ -109,7 +108,10 @@ public class ProviderFieldRegister extends AppCompatActivity {
                 Toast.makeText(this, "Price field cannot be empty", Toast.LENGTH_SHORT).show();
             }else if (bankName.isEmpty()){
                 Toast.makeText(this, "Bank name field cannot be empty", Toast.LENGTH_SHORT).show();
-            }else {
+            }else if (description.isEmpty()){
+                Toast.makeText(this, "Description field cannot be empty", Toast.LENGTH_SHORT).show();
+            }
+            else {
                 if (!onImageChange){
                     Toast.makeText(this, "Please upload the image field", Toast.LENGTH_SHORT).show();
                 }else {
@@ -245,6 +247,7 @@ public class ProviderFieldRegister extends AppCompatActivity {
                 0.0,
                 openTime,
                 closeTime,
+                description,
                 priceField
         );
 

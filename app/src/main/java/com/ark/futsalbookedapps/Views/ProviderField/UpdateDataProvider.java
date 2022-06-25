@@ -54,7 +54,7 @@ public class UpdateDataProvider extends AppCompatActivity {
     private double latitude, longitude;
 
     // init attr data
-    private String fieldName, phoneNumber,bankName, accNumber, location, oldUrl, openTime, closeTime;
+    private String fieldName, phoneNumber,bankName, accNumber, location, oldUrl, openTime, closeTime, description;
     private int priceField;
 
     private int hourOpen, minuteOpen, hourClose, minuteClose;
@@ -97,6 +97,8 @@ public class UpdateDataProvider extends AppCompatActivity {
             priceField = Integer.parseInt(Objects.requireNonNull(binding.priceField.getText()).toString());
             openTime = binding.timeOpenResult.getText().toString();
             closeTime = binding.timeCloseResult.getText().toString();
+            description = Objects.requireNonNull(binding.descriptionEdt.getText()).toString();
+
 
             if (fieldName.isEmpty()){
                 Toast.makeText(this, "Field name cannot be empty", Toast.LENGTH_SHORT).show();
@@ -112,6 +114,8 @@ public class UpdateDataProvider extends AppCompatActivity {
                 Toast.makeText(this, "Price field cannot be empty", Toast.LENGTH_SHORT).show();
             }else if (bankName.isEmpty()){
                 Toast.makeText(this, "Bank name field cannot be empty", Toast.LENGTH_SHORT).show();
+            }else if (description.isEmpty()){
+                Toast.makeText(this, "Description field cannot be empty", Toast.LENGTH_SHORT).show();
             }
             else {
                 if (!onImageChange){
@@ -293,6 +297,7 @@ public class UpdateDataProvider extends AppCompatActivity {
                 0.0,
                 openTime,
                 closeTime,
+                description,
                 priceField
         );
 

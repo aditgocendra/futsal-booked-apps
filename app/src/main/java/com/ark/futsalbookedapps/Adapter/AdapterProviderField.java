@@ -162,6 +162,9 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
         TextView textLocationProvider = viewBottomDialog.findViewById(R.id.location_provider);
         TextView textRating = viewBottomDialog.findViewById(R.id.rating_text);
         TextView textTimeOpen = viewBottomDialog.findViewById(R.id.open_time_provider);
+        TextView textDescription = viewBottomDialog.findViewById(R.id.description_provider);
+
+        textDescription.setText(modelProviderField.getDescription());
 
         RatingBar ratingBar = viewBottomDialog.findViewById(R.id.rating_bar_field);
         ratingBar.setRating((float) modelProviderField.getRating());
@@ -344,10 +347,13 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
         recyclerTimePicker.setLayoutManager(gridLayoutManager);
         recyclerTimePicker.setHasFixedSize(true);
 
-        adapterTimePick = new AdapterTimePick(context, Arrays.asList(Data.time24hours));
+        adapterTimePick = new AdapterTimePick(context, Arrays.asList(Data.time24hours), modelProviderField.getOpenTime(), modelProviderField.getCloseTime());
         recyclerTimePicker.setAdapter(adapterTimePick);
 
         adapterTimePick.RecyclerTimePick((textSelectionNew, pos) -> {
+            if (!textSelectionNew.isEnabled()){
+                return;
+            }
             if (lastSelectTimePos != pos){
                 View itemView = Objects.requireNonNull(recyclerTimePicker.findViewHolderForLayoutPosition(lastSelectTimePos)).itemView;
                 TextView textTimeSelectionLast = itemView.findViewById(R.id.text_time);

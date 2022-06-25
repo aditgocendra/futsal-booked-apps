@@ -12,13 +12,14 @@ public class ModelProviderField {
     private double rating;
     private String openTime;
     private String closeTime;
+    private String description;
     private int priceField;
     private String keyUserProviderField;
 
     public ModelProviderField() {
     }
 
-    public ModelProviderField(String name, String urlPhotoField, String numberPhone, String nameBank, String bankAccountNumber, String location, double latitude, double longitude, double rating, String openTime, String closeTime, int priceField) {
+    public ModelProviderField(String name, String urlPhotoField, String numberPhone, String nameBank, String bankAccountNumber, String location, double latitude, double longitude, double rating, String openTime, String closeTime, String description, int priceField) {
         this.name = name;
         this.urlPhotoField = urlPhotoField;
         this.numberPhone = numberPhone;
@@ -30,6 +31,7 @@ public class ModelProviderField {
         this.rating = rating;
         this.openTime = openTime;
         this.closeTime = closeTime;
+        this.description = description;
         this.priceField = priceField;
     }
 
@@ -119,6 +121,14 @@ public class ModelProviderField {
 
     public void setCloseTime(String closeTime) {
         this.closeTime = closeTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getPriceField() {

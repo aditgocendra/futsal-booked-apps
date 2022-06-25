@@ -23,6 +23,8 @@ public class AdapterTimePick extends RecyclerView.Adapter<AdapterTimePick.TimePi
 
     private Context context;
     private List<String> listTime;
+    private String openTime;
+    private String closeTime;
     private RecyclerTimePick listenerRecycler;
 
     public interface RecyclerTimePick{
@@ -33,10 +35,11 @@ public class AdapterTimePick extends RecyclerView.Adapter<AdapterTimePick.TimePi
         this.listenerRecycler = listenerRecycler;
     }
 
-    public AdapterTimePick(Context context, List<String> listTime) {
+    public AdapterTimePick(Context context, List<String> listTime, String openTime, String closeTime) {
         this.context = context;
         this.listTime = listTime;
-
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
 
     @NonNull
@@ -50,9 +53,29 @@ public class AdapterTimePick extends RecyclerView.Adapter<AdapterTimePick.TimePi
     @Override
     public void onBindViewHolder(@NonNull TimePickVH holder, int position) {
         String time = listTime.get(position);
-        holder.textTimeSelection.setText(time);
 
-        Log.d("test", String.valueOf(position));
+        // convert time to integer
+        int timeOpen = Integer.parseInt(openTime.substring(0, 2));
+        int timeClose = Integer.parseInt(closeTime.substring(0, 2));
+        int hoursTime = Integer.parseInt(time.substring(0,2));
+
+        // Disable time before open time (AM)
+        if (time.substring(6,7).equals(openTime.substring(6,7))){
+            if (hoursTime < timeOpen){
+                holder.textTimeSelection.setEnabled(false);
+                holder.textTimeSelection.setTextColor(context.getResources().getColor(R.color.gray_dop));
+            }
+        }
+
+        // Disable time after close time (PM)
+        if (time.substring(6,7).equals(closeTime.substring(6,7))){
+            if (hoursTime > timeClose){
+                holder.textTimeSelection.setEnabled(false);
+                holder.textTimeSelection.setTextColor(context.getResources().getColor(R.color.gray_dop));
+            }
+        }
+
+        holder.textTimeSelection.setText(time);
 
     }
 

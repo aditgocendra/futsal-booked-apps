@@ -176,13 +176,14 @@ public class ManageBookedField extends AppCompatActivity {
                         if (status == 500){
                             modelBooked.setKeyBooked(ds.getKey());
                             listBooked.add(modelBooked);
+                            key = ds.getKey();
                         }else {
                             if (modelBooked.getStatus() == status){
                                 modelBooked.setKeyBooked(ds.getKey());
                                 listBooked.add(modelBooked);
+                                key = ds.getKey();
                             }
                         }
-                        key = ds.getKey();
                     }
                 }
 
@@ -210,10 +211,11 @@ public class ManageBookedField extends AppCompatActivity {
     private void setBottomDialogFilter(){
         View viewBottomDialog = getLayoutInflater().inflate(R.layout.layout_filter_booked, null, false);
 
-        Button waitingPaid, cancelled, dpPay, bookedFinish;
+        Button waitingPaid, cancelled, dpPay, bookedFinish, dpPaid;
         waitingPaid = viewBottomDialog.findViewById(R.id.waiting_paid_btn);
         cancelled = viewBottomDialog.findViewById(R.id.cancelled_btn);
         dpPay = viewBottomDialog.findViewById(R.id.dp_pay_btn);
+        dpPaid = viewBottomDialog.findViewById(R.id.dp_paid);
         bookedFinish = viewBottomDialog.findViewById(R.id.booked_finish_btn);
 
         waitingPaid.setOnClickListener(view -> {
@@ -221,6 +223,7 @@ public class ManageBookedField extends AppCompatActivity {
             cancelled.setEnabled(true);
             dpPay.setEnabled(true);
             bookedFinish.setEnabled(true);
+            dpPaid.setEnabled(true);
             filterData(0);
             bottomSheetDialog.dismiss();
         });
@@ -230,6 +233,7 @@ public class ManageBookedField extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             dpPay.setEnabled(true);
             bookedFinish.setEnabled(true);
+            dpPaid.setEnabled(true);
             filterData(101);
             bottomSheetDialog.dismiss();
         });
@@ -239,6 +243,7 @@ public class ManageBookedField extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             cancelled.setEnabled(true);
             bookedFinish.setEnabled(true);
+            dpPaid.setEnabled(true);
             filterData(202);
             bottomSheetDialog.dismiss();
         });
@@ -248,7 +253,19 @@ public class ManageBookedField extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             cancelled.setEnabled(true);
             dpPay.setEnabled(true);
+            dpPaid.setEnabled(true);
             filterData(303);
+            bottomSheetDialog.dismiss();
+        });
+
+        dpPaid.setOnClickListener(view -> {
+            dpPaid.setEnabled(false);
+            bookedFinish.setEnabled(true);
+            waitingPaid.setEnabled(true);
+            cancelled.setEnabled(true);
+            dpPay.setEnabled(true);
+
+            filterData(400);
             bottomSheetDialog.dismiss();
         });
 
@@ -260,6 +277,7 @@ public class ManageBookedField extends AppCompatActivity {
         status = codeStatus;
         key = null;
         listBooked.clear();
+        adapterManageBookedField.notifyDataSetChanged();
         isLoadData = true;
         setDataBooked();
     }

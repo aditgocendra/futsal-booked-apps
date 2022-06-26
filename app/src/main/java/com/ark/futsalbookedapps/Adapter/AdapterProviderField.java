@@ -40,6 +40,7 @@ import com.ark.futsalbookedapps.Models.ModelNotification;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
 import com.ark.futsalbookedapps.Models.ModelSlider;
 import com.ark.futsalbookedapps.R;
+import com.ark.futsalbookedapps.Views.Users.FieldBooked;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.datepicker.CalendarConstraints;
@@ -365,30 +366,34 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
             timeSelectedPlay = textSelectionNew.getText().toString();
             lastSelectTimePos = pos;
 
+            if (textDurationOne.isEnabled()){
+                ViewCompat.setBackgroundTintList(textDurationOne, ColorStateList.valueOf(context.getResources().getColor(R.color.gray_white)));
+                textDurationOne.setTextColor(context.getResources().getColor(R.color.primary));
+            }
+
+            if (textDurationTwo.isEnabled()){
+                ViewCompat.setBackgroundTintList(textDurationTwo, ColorStateList.valueOf(context.getResources().getColor(R.color.gray_white)));
+                textDurationTwo.setTextColor(context.getResources().getColor(R.color.primary));
+            }
+
+            if (textDurationThree.isEnabled()){
+                ViewCompat.setBackgroundTintList(textDurationThree, ColorStateList.valueOf(context.getResources().getColor(R.color.gray_white)));
+                textDurationThree.setTextColor(context.getResources().getColor(R.color.primary));
+            }
+
+            if (textDurationFour.isEnabled()){
+                ViewCompat.setBackgroundTintList(textDurationFour, ColorStateList.valueOf(context.getResources().getColor(R.color.gray_white)));
+                textDurationFour.setTextColor(context.getResources().getColor(R.color.primary));
+            }
+
+            textTotalPrice.setText("-");
+
             availablePlaytime = 0;
-            validationPickTime(textDate.getText().toString(), timeSelectedPlay, layoutPickDuration);
+            validationPickTime(textDate.getText().toString(), timeSelectedPlay, layoutPickDuration, modelProviderField.getCloseTime());
+            btnNext.setEnabled(false);
+
+
         });
-
-
-
-        // pick time booked
-//        cardPickTime.setOnClickListener(view -> {
-//            TimePickerDialog timePickerDialog;
-//            Calendar calendar = Calendar.getInstance();
-//            timePickerDialog = new TimePickerDialog(context, (timePicker, hourDay, minuteOfDay) -> {
-//
-//                hour = hourDay;
-//                minute = minuteOfDay;
-//
-//                calendar.set(0,0,0, hour, minute);
-//                textTime.setText(DateFormat.format("hh:mm aa", calendar));
-//                availablePlaytime = 0;
-//                validationPickTime(textDate.getText().toString(), textTime.getText().toString(), layoutPickDuration);
-//
-//            }, 24, 0, true);
-//
-//            timePickerDialog.show();
-//        });
 
         // duration choice
         textDurationOne.setOnClickListener(view -> {
@@ -397,6 +402,8 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
 
             ViewCompat.setBackgroundTintList(textDurationOne, ColorStateList.valueOf(context.getResources().getColor(R.color.primary)));
             textDurationOne.setTextColor(Color.WHITE);
+
+
 
             if (textDurationTwo.isEnabled()){
                 ViewCompat.setBackgroundTintList(textDurationTwo, ColorStateList.valueOf(context.getResources().getColor(R.color.gray_white)));
@@ -509,8 +516,6 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
 
     private void bookedField(ModelBooked modelBooked, String keyProviderField){
         ReferenceDatabase.referenceBooked.push().setValue(modelBooked).addOnSuccessListener(unused -> {
-            Toast.makeText(context, "Booked Success", Toast.LENGTH_SHORT).show();
-
             // create and sending notification
             ReferenceDatabase.referenceTokenNotification.child(keyProviderField).child("token").get().addOnCompleteListener(this::createNotification);
             saveNotification(title, msg, keyProviderField);
@@ -552,12 +557,10 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
                 msg
         );
         ReferenceDatabase.referenceNotification.child(keyReceiver).push().setValue(modelNotification);
+        context.startActivity(new Intent(context, FieldBooked.class));
     }
 
-    private void validationPickTime(String dateBooked, String timeBooked, LinearLayout layoutPickDuration){
-//        hourBookedNew = Integer.parseInt(timeBooked.substring(0, 2)) + 4;
-//        Toast.makeText(context, String.valueOf(hourBookedNew), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(context, timeBooked.substring(3, 5), Toast.LENGTH_SHORT).show(); MINUTE
+    private void validationPickTime(String dateBooked, String timeBooked, LinearLayout layoutPickDuration, String closeTime){
         ReferenceDatabase.referenceBooked.orderByChild("dateBooked").equalTo(dateBooked).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -612,6 +615,27 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
                 }else {
                     layoutPickDuration.setVisibility(View.VISIBLE);
 
+                    // Check close time
+                    if (availablePlaytime == 4 || availablePlaytime == 0){
+                        availablePlaytime = 4;
+                        if (timeBooked.substring(6,7).equals(closeTime.substring(6,7))){
+                            int bookedTime = Integer.parseInt(timeBooked.substring(0,2));
+                            int close = Integer.parseInt(closeTime.substring(0,2));
+
+                            if (bookedTime + 1 == close){
+                                availablePlaytime -= 3;
+                            }
+
+                            if (bookedTime + 2 == close){
+                                availablePlaytime -= 2;
+                            }
+
+                            if (bookedTime + 3 == close){
+                                availablePlaytime -= 1;
+                            }
+                        }
+                    }
+
                     if (availablePlaytime == 1){
                         // disable
                         textDurationFour.setEnabled(false);
@@ -660,7 +684,7 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
                         textDurationOne.setTextColor(context.getResources().getColor(R.color.primary_dark));
                     }
 
-                    if (availablePlaytime == 4 || availablePlaytime == 0){
+                    if (availablePlaytime == 4){
                         // enable
                         textDurationFour.setEnabled(true);
                         textDurationFour.setTextColor(context.getResources().getColor(R.color.primary_dark));
@@ -674,6 +698,7 @@ public class AdapterProviderField extends RecyclerView.Adapter<AdapterProviderFi
                         textDurationOne.setEnabled(true);
                         textDurationOne.setTextColor(context.getResources().getColor(R.color.primary_dark));
                     }
+
                 }
                 timeIsPick = false;
             }

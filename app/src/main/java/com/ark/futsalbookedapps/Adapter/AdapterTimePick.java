@@ -69,7 +69,7 @@ public class AdapterTimePick extends RecyclerView.Adapter<AdapterTimePick.TimePi
 
         // Disable time after close time (PM)
         if (time.substring(6,7).equals(closeTime.substring(6,7))){
-            if (hoursTime > timeClose){
+            if (hoursTime >= timeClose){
                 holder.textTimeSelection.setEnabled(false);
                 holder.textTimeSelection.setTextColor(context.getResources().getColor(R.color.gray_dop));
             }

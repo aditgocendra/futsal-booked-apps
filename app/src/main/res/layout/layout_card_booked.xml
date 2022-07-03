@@ -158,16 +158,6 @@
                 android:textColor="@color/black"
                 android:layout_weight="1"/>
 
-            <TextView
-                android:id="@+id/bank_acc_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/bank_account_number"
-                android:textSize="11sp"
-                android:textAlignment="textEnd"
-                android:textColor="@color/primary_light"
-                android:layout_weight="1"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -203,15 +193,24 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/proof_btn"
+            android:id="@+id/detail_dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload Bukti"
+            android:text="Detail Pembayaran"
             android:textAllCaps="false"
             android:fontFamily="@font/poppins_medium"
             android:textSize="12sp"
-            android:visibility="gone"
             android:backgroundTint="@color/primary"/>
+
+        <Button
+            android:id="@+id/cancelled_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancelled"
+            android:textAllCaps="false"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="12sp"
+            android:backgroundTint="#F83C3C"/>
 
         <Button
             android:id="@+id/rating_btn"

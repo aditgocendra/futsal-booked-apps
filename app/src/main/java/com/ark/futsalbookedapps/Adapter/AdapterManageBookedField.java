@@ -66,7 +66,7 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
         holder.playtimeText.setText(modelBooked.getPlaytime()+" Hours");
 
         if (modelBooked.getStatus() == 0){
-            holder.statusText.setText("Waiting paid");
+            holder.statusText.setText("Status : Waiting paid");
         }else if (modelBooked.getStatus() == 101){
             holder.statusText.setText("Canceled");
             holder.cancelBtn.setEnabled(false);
@@ -79,8 +79,9 @@ public class AdapterManageBookedField extends RecyclerView.Adapter<AdapterManage
             holder.statusText.setText("Booked Finish");
             holder.cancelBtn.setEnabled(false);
             holder.confirmPaidBtn.setEnabled(false);
+        }else if (modelBooked.getStatus() == 400){
+            holder.statusText.setText("DP Paid");
         }
-
 
         // set data field booked
 //        setDataField(modelBooked.getKeyProviderField(), modelBooked.getKeyFieldBooked(), holder);

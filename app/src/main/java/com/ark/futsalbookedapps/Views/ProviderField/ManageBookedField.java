@@ -42,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -176,13 +177,14 @@ public class ManageBookedField extends AppCompatActivity {
                         if (status == 500){
                             modelBooked.setKeyBooked(ds.getKey());
                             listBooked.add(modelBooked);
+                            key = ds.getKey();
                         }else {
                             if (modelBooked.getStatus() == status){
                                 modelBooked.setKeyBooked(ds.getKey());
                                 listBooked.add(modelBooked);
+                                key = ds.getKey();
                             }
                         }
-                        key = ds.getKey();
                     }
                 }
 
@@ -210,10 +212,11 @@ public class ManageBookedField extends AppCompatActivity {
     private void setBottomDialogFilter(){
         View viewBottomDialog = getLayoutInflater().inflate(R.layout.layout_filter_booked, null, false);
 
-        Button waitingPaid, cancelled, dpPay, bookedFinish;
+        Button waitingPaid, cancelled, dpPay, bookedFinish, dpPaid;
         waitingPaid = viewBottomDialog.findViewById(R.id.waiting_paid_btn);
         cancelled = viewBottomDialog.findViewById(R.id.cancelled_btn);
         dpPay = viewBottomDialog.findViewById(R.id.dp_pay_btn);
+        dpPaid = viewBottomDialog.findViewById(R.id.dp_paid);
         bookedFinish = viewBottomDialog.findViewById(R.id.booked_finish_btn);
 
         waitingPaid.setOnClickListener(view -> {
@@ -221,6 +224,7 @@ public class ManageBookedField extends AppCompatActivity {
             cancelled.setEnabled(true);
             dpPay.setEnabled(true);
             bookedFinish.setEnabled(true);
+            dpPaid.setEnabled(true);
             filterData(0);
             bottomSheetDialog.dismiss();
         });
@@ -230,6 +234,7 @@ public class ManageBookedField extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             dpPay.setEnabled(true);
             bookedFinish.setEnabled(true);
+            dpPaid.setEnabled(true);
             filterData(101);
             bottomSheetDialog.dismiss();
         });
@@ -239,6 +244,7 @@ public class ManageBookedField extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             cancelled.setEnabled(true);
             bookedFinish.setEnabled(true);
+            dpPaid.setEnabled(true);
             filterData(202);
             bottomSheetDialog.dismiss();
         });
@@ -248,7 +254,19 @@ public class ManageBookedField extends AppCompatActivity {
             waitingPaid.setEnabled(true);
             cancelled.setEnabled(true);
             dpPay.setEnabled(true);
+            dpPaid.setEnabled(true);
             filterData(303);
+            bottomSheetDialog.dismiss();
+        });
+
+        dpPaid.setOnClickListener(view -> {
+            dpPaid.setEnabled(false);
+            bookedFinish.setEnabled(true);
+            waitingPaid.setEnabled(true);
+            cancelled.setEnabled(true);
+            dpPay.setEnabled(true);
+
+            filterData(400);
             bottomSheetDialog.dismiss();
         });
 
@@ -260,6 +278,7 @@ public class ManageBookedField extends AppCompatActivity {
         status = codeStatus;
         key = null;
         listBooked.clear();
+        adapterManageBookedField.notifyDataSetChanged();
         isLoadData = true;
         setDataBooked();
     }
@@ -329,6 +348,7 @@ public class ManageBookedField extends AppCompatActivity {
                         String getMonth = modelBooked.getDateBooked().substring(0, 3);
                         if (yearSelected.equals(getYear) && monthSelected.equals(getMonth)){
                             listReportPdf.add(modelBooked);
+
                         }
                     }
                 }
@@ -403,6 +423,11 @@ public class ManageBookedField extends AppCompatActivity {
                     descStatus = "Dp Payment in Full";
                 }else if (listReportPdf.get(i).getStatus() == 303){
                     descStatus = "Booked finish";
+                }else if (listReportPdf.get(i).getStatus() == 400) {
+                    descStatus = "DP Paid";
+                }else {
+                    descStatus = "No Status" +
+                            "";
                 }
 
                 canvas.drawText(descStatus, 930, yStart, dataPaint);
@@ -410,6 +435,7 @@ public class ManageBookedField extends AppCompatActivity {
             }
 
         pdfDocument.finishPage(page);
+
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/Laporan-Booking-Lapangan-Futsal.pdf");
 
         try {
@@ -417,7 +443,7 @@ public class ManageBookedField extends AppCompatActivity {
             Toast.makeText(this, "Laporan PDF berhasil dibuat", Toast.LENGTH_SHORT).show();
         }catch (IOException e){
             e.printStackTrace();
-            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
         }
     }
 

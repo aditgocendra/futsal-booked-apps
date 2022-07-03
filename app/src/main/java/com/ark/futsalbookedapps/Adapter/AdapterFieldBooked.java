@@ -23,6 +23,7 @@ import com.ark.futsalbookedapps.Models.ModelNotification;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
 import com.ark.futsalbookedapps.Models.ModelReviewProvider;
 import com.ark.futsalbookedapps.R;
+import com.ark.futsalbookedapps.Views.Users.DetailFieldBooked;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +42,7 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     private List<ModelBooked> listBooked = new ArrayList<>();
     private Dialog dialogBankAccount;
     private BottomSheetDialog bottomSheetDialog;
-    private RecyclerBooked listenerRecycler;
+
 
     // notification
     private String title = "Futsaloka";
@@ -55,66 +56,84 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
         this.listBooked = listBooked;
     }
 
-    public interface RecyclerBooked{
-        void recyclerBooked(Button proofBtn, int pos);
-    }
-
-    public void RecyclerBooked(RecyclerBooked listenerRecycler){
-        this.listenerRecycler = listenerRecycler;
-    }
 
     @NonNull
     @Override
     public AdapterFieldBooked.FieldBookedVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.layout_card_booked, parent, false);
-        return new FieldBookedVH(view, listenerRecycler);
+        return new FieldBookedVH(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AdapterFieldBooked.FieldBookedVH holder, int position) {
         ModelBooked modelBooked = listBooked.get(position);
 
-        if (modelBooked.getUrlProof().equals("-")){
-            holder.proofBtn.setVisibility(View.VISIBLE);
-        }
-
         // set data provider field
         setProviderField(modelBooked.getKeyProviderField(), holder);
-
 
         // set data booked
         holder.playtimeText.setText(modelBooked.getPlaytime()+" Jam");
         holder.datePlayText.setText(modelBooked.getDateBooked());
         holder.timePlayText.setText(modelBooked.getTimeBooked());
 
+
         if (modelBooked.getStatus() == 0){
             holder.statusText.setText("Status : Waiting paid");
+            holder.previewLocBtn.setVisibility(View.VISIBLE);
+            holder.contactProvider.setVisibility(View.VISIBLE);
+            holder.cancelledBtn.setVisibility(View.VISIBLE);
+            holder.detailDP.setVisibility(View.VISIBLE);
         }else if (modelBooked.getStatus() == 101){
             holder.statusText.setText("Status : Canceled");
-            holder.bankAccNumber.setEnabled(false);
             holder.ratingBtn.setVisibility(View.GONE);
             holder.previewLocBtn.setVisibility(View.GONE);
             holder.contactProvider.setVisibility(View.GONE);
+            holder.cancelledBtn.setVisibility(View.GONE);
+            holder.detailDP.setVisibility(View.GONE);
         }else if (modelBooked.getStatus() == 202){
             holder.statusText.setText("Status : DP payment in full");
-            holder.bankAccNumber.setEnabled(false);
             holder.ratingBtn.setVisibility(View.VISIBLE);
+            holder.cancelledBtn.setVisibility(View.GONE);
         }else if (modelBooked.getStatus() == 303){
             holder.statusText.setText("Status : Booked Finish");
-            holder.bankAccNumber.setEnabled(false);
             holder.ratingBtn.setVisibility(View.GONE);
             holder.previewLocBtn.setVisibility(View.GONE);
             holder.contactProvider.setVisibility(View.GONE);
+            holder.cancelledBtn.setVisibility(View.GONE);
+        }else if (modelBooked.getStatus() == 400){
+            holder.statusText.setText("Status : DP Paid");
+            holder.detailDP.setVisibility(View.VISIBLE);
+            holder.ratingBtn.setVisibility(View.GONE);
+            holder.previewLocBtn.setVisibility(View.GONE);
+            holder.contactProvider.setVisibility(View.GONE);
+            holder.cancelledBtn.setVisibility(View.GONE);
         }
 
-        holder.bankAccNumber.setOnClickListener(view -> dialogBankAccount.show());
+        holder.cancelledBtn.setOnClickListener(view -> {
+            updateStatusBooked(modelBooked, 101, position);
+            holder.cancelledBtn.setVisibility(View.GONE);
+            holder.detailDP.setVisibility(View.GONE);
+        });
+
 
         // rating & review
         holder.ratingBtn.setOnClickListener(view -> {
             bottomSheetDialog = new BottomSheetDialog(context);
             setBottomSheetDialog(modelBooked, position);
             bottomSheetDialog.show();
+        });
+
+        holder.detailDP.setOnClickListener(view -> {
+            Intent intent = new Intent(context, DetailFieldBooked.class);
+            intent.putExtra("keyBooked", modelBooked.getKeyBooked());
+            intent.putExtra("keyProviderField", modelBooked.getKeyProviderField());
+            intent.putExtra("dateBooked", modelBooked.getDateBooked());
+            intent.putExtra("timeBooked", modelBooked.getTimeBooked());
+            intent.putExtra("playTime", modelBooked.getPlaytime());
+            intent.putExtra("urlProof", modelBooked.getUrlProof());
+            intent.putExtra("status", String.valueOf(modelBooked.getStatus()));
+            context.startActivity(intent);
         });
     }
 
@@ -124,16 +143,15 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
     }
 
     public static class FieldBookedVH extends RecyclerView.ViewHolder {
-        TextView providerFieldText, playtimeText, minimumDpText, bankAccNumber, statusText, datePlayText, timePlayText;
+        TextView providerFieldText, playtimeText, minimumDpText, statusText, datePlayText, timePlayText;
         ImageView imageField;
-        Button previewLocBtn, contactProvider, ratingBtn, proofBtn;
-        public FieldBookedVH(@NonNull View itemView, RecyclerBooked listenerRecycler) {
+        Button previewLocBtn, contactProvider, ratingBtn, detailDP, cancelledBtn;
+        public FieldBookedVH(@NonNull View itemView) {
             super(itemView);
 
             providerFieldText = itemView.findViewById(R.id.provider_field_text);
             playtimeText = itemView.findViewById(R.id.playtime_text);
             minimumDpText = itemView.findViewById(R.id.minimum_dp_text);
-            bankAccNumber = itemView.findViewById(R.id.bank_acc_number);
             statusText = itemView.findViewById(R.id.status_dp_text);
             imageField = itemView.findViewById(R.id.image_field);
             datePlayText = itemView.findViewById(R.id.date_play_text);
@@ -141,14 +159,9 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
             contactProvider = itemView.findViewById(R.id.contact_provider);
             previewLocBtn = itemView.findViewById(R.id.preview_location_btn);
             ratingBtn = itemView.findViewById(R.id.rating_btn);
-            proofBtn = itemView.findViewById(R.id.proof_btn);
+            detailDP = itemView.findViewById(R.id.detail_dp);
+            cancelledBtn = itemView.findViewById(R.id.cancelled_btn);
 
-            proofBtn.setOnClickListener(view -> {
-                if (listenerRecycler != null && getLayoutPosition() != RecyclerView.NO_POSITION){
-                    listenerRecycler.recyclerBooked(proofBtn, getLayoutPosition());
-
-                }
-            });
         }
     }
 
@@ -249,6 +262,7 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
 
                     // change status booked
                     updateStatusBooked(modelBooked, 303, pos);
+                    countRatingProviderField(modelBooked.getKeyProviderField());
 
                 }).addOnFailureListener(e -> Toast.makeText(context, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
@@ -258,7 +272,6 @@ public class AdapterFieldBooked extends RecyclerView.Adapter<AdapterFieldBooked.
         ReferenceDatabase.referenceBooked.child(modelBooked.getKeyBooked()).setValue(modelBooked).addOnSuccessListener(unused -> {
             listBooked.get(position).setStatus(status);
             this.notifyItemChanged(position);
-            countRatingProviderField(modelBooked.getKeyProviderField());
         }).addOnFailureListener(e -> Toast.makeText(context, "Error : "+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 

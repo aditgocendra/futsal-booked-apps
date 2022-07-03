@@ -43,8 +43,6 @@ public class AdapterMonthSelection extends RecyclerView.Adapter<AdapterMonthSele
         String month = months.get(position);
         holder.textMonthSelection.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         holder.textMonthSelection.setText(month);
-
-        Log.d("test", String.valueOf(position));
     }
 
     @Override

@@ -42,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -347,6 +348,7 @@ public class ManageBookedField extends AppCompatActivity {
                         String getMonth = modelBooked.getDateBooked().substring(0, 3);
                         if (yearSelected.equals(getYear) && monthSelected.equals(getMonth)){
                             listReportPdf.add(modelBooked);
+
                         }
                     }
                 }
@@ -421,6 +423,11 @@ public class ManageBookedField extends AppCompatActivity {
                     descStatus = "Dp Payment in Full";
                 }else if (listReportPdf.get(i).getStatus() == 303){
                     descStatus = "Booked finish";
+                }else if (listReportPdf.get(i).getStatus() == 400) {
+                    descStatus = "DP Paid";
+                }else {
+                    descStatus = "No Status" +
+                            "";
                 }
 
                 canvas.drawText(descStatus, 930, yStart, dataPaint);
@@ -428,6 +435,7 @@ public class ManageBookedField extends AppCompatActivity {
             }
 
         pdfDocument.finishPage(page);
+
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/Laporan-Booking-Lapangan-Futsal.pdf");
 
         try {
@@ -435,7 +443,7 @@ public class ManageBookedField extends AppCompatActivity {
             Toast.makeText(this, "Laporan PDF berhasil dibuat", Toast.LENGTH_SHORT).show();
         }catch (IOException e){
             e.printStackTrace();
-            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -23,7 +23,10 @@ import com.ark.futsalbookedapps.Globals.Functions;
 import com.ark.futsalbookedapps.Globals.ReferenceDatabase;
 import com.ark.futsalbookedapps.Models.ModelAccount;
 import com.ark.futsalbookedapps.Models.ModelProviderField;
+import com.ark.futsalbookedapps.R;
 import com.ark.futsalbookedapps.databinding.FragmentHomeBinding;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.common.util.Strings;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +52,7 @@ public class FragmentHome extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
 
     public FragmentHome() {
         // Required empty public constructor
@@ -145,6 +149,14 @@ public class FragmentHome extends Fragment {
                 }
             }
         });
+
+        List<SlideModel> imageList = new ArrayList<>();
+
+        imageList.add(new SlideModel(R.drawable.ads_1, ScaleTypes.CENTER_CROP));
+        imageList.add(new SlideModel(R.drawable.ads_2, ScaleTypes.CENTER_CROP));
+        imageList.add(new SlideModel(R.drawable.ads_3, ScaleTypes.CENTER_CROP));
+
+        binding.imageSlider.setImageList(imageList);
 
         return binding.getRoot();
 
